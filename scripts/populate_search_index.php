@@ -28,8 +28,8 @@ function main($argv)
         echo "A language to scan is required.\n";
         exit(1);
     }
-    define('CAKEPHP_VERSION', $argv[1]);
-    define('LANG', $argv[2]);
+    $version = $argv[1];
+    $lang = $argv[2];
 
     if (!empty($argv[3])) {
         define('ES_HOST', $argv[2]);
@@ -42,7 +42,7 @@ function main($argv)
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
     foreach ($matcher as $file) {
-        updateIndex(LANG, $file);
+        updateIndex($version, $lang, $file);
     }
 
     echo "\nIndex update complete\n";
@@ -55,7 +55,7 @@ function main($argv)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($lang, $file)
+function updateIndex($version, $lang, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
@@ -66,7 +66,7 @@ function updateIndex($lang, $file)
     $id = str_replace('/', '-', $id);
     $id = trim($id, '-');
 
-    $url = implode('/', array(ES_HOST, ES_INDEX, CAKEPHP_VERSION . '-' . $lang, $id));
+    $url = implode('/', array(ES_HOST, ES_INDEX, $version . '-' . $lang, $id));
 
     $data = array(
         'contents' => $fileData['contents'],

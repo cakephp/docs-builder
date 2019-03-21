@@ -7,20 +7,19 @@ ES_HOST =
 
 .PHONY: all clean html website website-dirs rebuild-index build-html
 
+# You can set these variables from the command line.
 SOURCE := $(shell pwd)
 DEST := ./website
-
-# You can set these variables from the command line.
+LANG = en
+INDEX_PREFIX =
 ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c ./ $(SPHINXOPTS) .
+
+# Tool names
 SPHINXBUILD = sphinx-build
 PYTHON = python
-LANG = en
 
 # Languages that can be built.
 LANGS = en
-
-# pdflatex does not like ja, zh & tr for some reason.
-PDF_LANGS = en
 
 # Get path to theme directory to build static assets.
 THEME_DIR = $(shell python -c 'import os, cakephpsphinx; print os.path.abspath(os.path.dirname(cakephpsphinx.__file__))')
@@ -59,11 +58,11 @@ server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
 
 populate-index-%:
-	php scripts/populate_search_index.php $* $(ES_HOST)
+	php scripts/populate_search_index.php $(INDEX_PREFIX) $* $(ES_HOST)
 
 rebuild-index-%:
-	curl -XDELETE $(ES_HOST)/documentation/3-0-$*
-	php scripts/populate_search_index.php $* $(ES_HOST)
+	curl -XDELETE $(ES_HOST)/documentation/$(INDEX_PREFIX)-$*
+	php scripts/populate_search_index.php $(INDEX_PREFIX) $* $(ES_HOST)
 
 website-dirs:
 	# Make the directory if its not there already.
@@ -88,6 +87,9 @@ clean-website:
 build/html/%/_static:
 	mkdir -p build/html/$*/_static
 
+build/html/%/_static/css: build/html/%/_static
+	mkdir -p build/html/$*/_static/css
+
 CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
   $(THEME_DIR)/themes/cakephp/static/css/bootstrap.min.css \
   $(THEME_DIR)/themes/cakephp/static/css/font-awesome.min.css \
@@ -96,7 +98,7 @@ CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
   $(THEME_DIR)/themes/cakephp/static/css/pygments.css \
   $(THEME_DIR)/themes/cakephp/static/css/responsive.css
 
-build/html/%/_static/css/app.css: build/html/%/_static $(CSS_FILES)
+build/html/%/_static/css/app.css: build/html/%/_static/css $(CSS_FILES)
 	# echo all dependencies ($$^) into the output ($$@)
 	cat $(CSS_FILES) > $@
 
