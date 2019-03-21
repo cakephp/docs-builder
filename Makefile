@@ -5,7 +5,7 @@
 PYTHON = python
 ES_HOST =
 
-.PHONY: all clean html website website-dirs rebuild-index build-html
+.PHONY: all clean html website website-dirs rebuild-index build-html move-website
 
 # You can set these variables from the command line.
 SOURCE := $(shell pwd)
@@ -77,6 +77,10 @@ website-dirs:
 website: website-dirs html populate-index
 	# Move HTML
 	$(foreach lang, $(LANGS), cp -r build/html/$(lang) $(DEST)/$(lang);)
+
+move-website:
+	mkdir -p $(DEST)
+	mv $(SOURCE) $(DEST)
 
 clean:
 	rm -rf build/*
