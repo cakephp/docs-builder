@@ -7,11 +7,11 @@ ES_HOST =
 
 .PHONY: all clean html website website-dirs rebuild-index build-html
 
-DEST := website
 SOURCE := $(shell pwd)
+DEST := ./website
 
 # You can set these variables from the command line.
-SPHINXOPTS :=
+SPHINXOPTS := -d $(DEST)/doctrees/$(LANG) $(SPHINXOPTS) .
 SPHINXBUILD := sphinx-build
 PYTHON := python
 LANG := en
@@ -49,7 +49,7 @@ html-%:
 build-html:
 	cd $(SOURCE)/$(LANG) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(DEST)/html/$(LANG)
 	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html/$(LANG)."
+	@echo "Build finished. The HTML pages are in $(DEST)/html/$(LANG)."
 
 server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
