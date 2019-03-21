@@ -5,7 +5,7 @@
 PYTHON = python
 ES_HOST =
 
-.PHONY: all clean html website website-dirs rebuild-index
+.PHONY: all clean html website website-dirs rebuild-index build-html
 
 DEST := website
 SOURCE := $(shell pwd)
@@ -42,11 +42,11 @@ rebuild-index: $(foreach lang, $(LANGS), rebuild-index-$(lang))
 
 # Make the HTML version of the documentation with correctly nested language folders.
 html-%:
-	make html LANG=$* SOURCE=$(SOURCE)
+	make build-html LANG=$* SOURCE=$(SOURCE)
 	make build/html/$*/_static/css/app.css
 	make build/html/$*/_static/app.js
 
-html:
+build-html:
 	cd $(SOURCE)/$(LANG) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(DEST)/html/$(LANG)
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html/$(LANG)."
