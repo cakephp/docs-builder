@@ -68,9 +68,6 @@ website-dirs:
 	# Make the directory if its not there already.
 	[ ! -d $(DEST) ] && mkdir $(DEST) || true
 
-	# Make the downloads directory
-	[ ! -d $(DEST)/_downloads ] && mkdir $(DEST)/_downloads || true
-
 	# Make downloads for each language
 	$(foreach lang, $(LANGS), [ ! -d $(DEST)/_downloads/$(lang) ] && mkdir $(DEST)/_downloads/$(lang) || true;)
 
@@ -78,9 +75,11 @@ website: website-dirs html populate-index
 	# Move HTML
 	$(foreach lang, $(LANGS), cp -r build/html/$(lang) $(DEST)/$(lang);)
 
-move-website:
+# SOURCE should be set to the directory containing the DEST directory of `website`
+move-website-%:
 	mkdir -p $(DEST)
-	mv $(SOURCE) $(DEST)
+	mv $(SOURCE)/html/$*/ $(DEST)
+	mv $(SOURCE)/$* $(DEST)
 
 clean:
 	rm -rf build/*
