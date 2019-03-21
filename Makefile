@@ -76,10 +76,9 @@ website: website-dirs html populate-index
 	$(foreach lang, $(LANGS), cp -r build/html/$(lang) $(DEST)/$(lang);)
 
 # SOURCE should be set to the directory containing the DEST directory of `website`
-move-website-%:
+move-website:
 	mkdir -p $(DEST)
-	mv $(SOURCE)/html/$*/ $(DEST)
-	mv $(SOURCE)/$* $(DEST)
+	mv $(SOURCE)/html/*/ $(DEST)
 
 clean:
 	rm -rf build/*
