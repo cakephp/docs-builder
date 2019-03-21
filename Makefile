@@ -8,11 +8,10 @@ ES_HOST =
 .PHONY: all clean html website website-dirs rebuild-index build-html
 
 SOURCE := $(shell pwd)
-DEST := ../website
-BUILD_DIR = ../build
+DEST := ./website
 
 # You can set these variables from the command line.
-ALLSPHINXOPTS = -d $(DEST)/doctrees/$(LANG) -c ./conf.py $(SPHINXOPTS) .
+ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c ./ $(SPHINXOPTS) .
 SPHINXBUILD = sphinx-build
 PYTHON = python
 LANG = en
@@ -25,6 +24,10 @@ PDF_LANGS = en
 
 # Get path to theme directory to build static assets.
 THEME_DIR = $(shell python -c 'import os, cakephpsphinx; print os.path.abspath(os.path.dirname(cakephpsphinx.__file__))')
+
+# Temporary build output directory
+BUILD_DIR = ./build
+
 
 # Copy-paste the English Makefile everywhere it's needed (if non existing).
 %/Makefile: en/Makefile
@@ -43,9 +46,9 @@ rebuild-index: $(foreach lang, $(LANGS), rebuild-index-$(lang))
 
 # Make the HTML version of the documentation with correctly nested language folders.
 html-%:
-	make build-html LANG=$* SOURCE=$(SOURCE)
-	make build/html/$*/_static/css/app.css
-	make build/html/$*/_static/app.js
+	make build-html LANG=$* SOURCE=$(SOURCE) DEST=$(DEST)
+	make build/html/$*/_static/css/app.css SOURCE=$(SOURCE)
+	make build/html/$*/_static/app.js SOURCE=$(SOURCE)
 
 build-html:
 	cd $(SOURCE)/$(LANG) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(DEST)/html/$(LANG)
