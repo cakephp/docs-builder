@@ -12,7 +12,7 @@ SOURCE := $(shell pwd)
 DEST := ./website
 LANG = en
 INDEX_PREFIX =
-ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c ./ $(SPHINXOPTS) .
+ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c $(SOURCE)/$(LANG) $(SPHINXOPTS)
 
 # Tool names
 SPHINXBUILD = sphinx-build
@@ -50,7 +50,7 @@ html-%:
 	make build/html/$*/_static/app.js SOURCE=$(SOURCE)
 
 build-html:
-	cd $(SOURCE)/$(LANG) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(DEST)/html/$(LANG)
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(SOURCE)/$(LANG) $(BUILD_DIR)/html/$(LANG)
 	@echo
 	@echo "Build finished. The HTML pages are in $(DEST)/html/$(LANG)."
 
@@ -68,17 +68,12 @@ website-dirs:
 	# Make the directory if its not there already.
 	[ ! -d $(DEST) ] && mkdir $(DEST) || true
 
-	# Make downloads for each language
-	$(foreach lang, $(LANGS), [ ! -d $(DEST)/_downloads/$(lang) ] && mkdir $(DEST)/_downloads/$(lang) || true;)
-
 website: website-dirs html populate-index
-	# Move HTML
-	$(foreach lang, $(LANGS), cp -r build/html/$(lang) $(DEST)/$(lang);)
 
 # SOURCE should be set to the directory containing the DEST directory of `website`
 move-website:
 	mkdir -p $(DEST)
-	mv $(SOURCE)/html/*/ $(DEST)
+	mv $(BUILD_DIR)/html/* $(DEST)
 
 clean:
 	rm -rf build/*

@@ -21,8 +21,11 @@ RUN apt-get update \
 WORKDIR /data
 
 COPY . /data/docs-builder
+
 RUN cd /data/docs-builder \
  && pip install -r requirements.txt
+
+RUN mv /data/docs-builder/nginx.conf /etc/nginx/sites-enabled/default
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
