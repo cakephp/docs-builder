@@ -8,13 +8,14 @@ ES_HOST =
 .PHONY: all clean html website website-dirs rebuild-index build-html
 
 SOURCE := $(shell pwd)
-DEST := ./website
+DEST := ../website
+BUILD_DIR = ../build
 
 # You can set these variables from the command line.
-SPHINXOPTS := -d $(DEST)/doctrees/$(LANG) $(SPHINXOPTS) .
-SPHINXBUILD := sphinx-build
-PYTHON := python
-LANG := en
+ALLSPHINXOPTS = -d $(DEST)/doctrees/$(LANG) -c ./conf.py $(SPHINXOPTS) .
+SPHINXBUILD = sphinx-build
+PYTHON = python
+LANG = en
 
 # Languages that can be built.
 LANGS = en
