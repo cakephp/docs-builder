@@ -21,15 +21,15 @@ define('ES_INDEX', 'documentation');
 function main($argv)
 {
     if (empty($argv[1])) {
-        echo "A version name is required.\n";
+        echo "A source directory is required.\n";
         exit(1);
     }
     if (empty($argv[2])) {
-        echo "A language to scan is required.\n";
+        echo "An index name is required.\n";
         exit(1);
     }
-    $version = $argv[1];
-    $lang = $argv[2];
+    $sourceDir = $argv[1];
+    $indexName = $argv[2];
 
     if (!empty($argv[3])) {
         define('ES_HOST', $argv[2]);
@@ -37,12 +37,12 @@ function main($argv)
         define('ES_HOST', ES_DEFAULT_HOST);
     }
 
-    $directory = new RecursiveDirectoryIterator($lang);
+    $directory = new RecursiveDirectoryIterator($sourceDir);
     $recurser = new RecursiveIteratorIterator($directory);
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
     foreach ($matcher as $file) {
-        updateIndex($version, $lang, $file);
+        updateIndex($indexName, $file);
     }
 
     echo "\nIndex update complete\n";
@@ -55,18 +55,17 @@ function main($argv)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($version, $lang, $file)
+function updateIndex($indexName, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
     list($filename) = explode('.', $filename);
 
     $path = $filename . '.html';
-    $id = str_replace($lang . '/', '', $filename);
-    $id = str_replace('/', '-', $id);
+    $id = str_replace('/', '-', $filename);
     $id = trim($id, '-');
 
-    $url = implode('/', array(ES_HOST, ES_INDEX, $version . '-' . $lang, $id));
+    $url = implode('/', array(ES_HOST, ES_INDEX, $indexName, $id));
 
     $data = array(
         'contents' => $fileData['contents'],
