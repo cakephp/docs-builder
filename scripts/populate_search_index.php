@@ -37,7 +37,7 @@ function main($argv)
         define('ES_HOST', ES_DEFAULT_HOST);
     }
 
-    $directory = new RecursiveDirectoryIterator(LANG);
+    $directory = new RecursiveDirectoryIterator($lang);
     $recurser = new RecursiveIteratorIterator($directory);
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
