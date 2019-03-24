@@ -80,6 +80,28 @@ get the following:
 
 * A static HTML site built with sphinx, using the cakephp-sphinxtheme
 * Nginx serving out of `/var/www/html`.
-* All documents indexed into the elasticsearch cluster available at `ES_HOST`.
-  This option needs to be provided to `make website`. If it is undefined
-  `ci.cakephp.org:9200` will be used.
+
+## What else you'll need to do
+
+When doing a deploy, the elasticsearch index will need to be rebuilt. You can
+do this by adding the following to your jenkins job task script:
+
+```bash
+# Get docs-builder to populate index
+git clone https:\/\/github.com/cakephp/docs-builder
+pushd docs-builder
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" INDEX_PREFIX="myplugin-11"
+popd
+```
+
+## Adding a translation to a plugin's docs
+
+The languages offered by a plugin are stored in a few places and each needs to
+be updated separately:
+
+* The `conf.py` file contains a `languages` list.
+* Each translation needs to set `language` in its configuration file.
+* The `docs.Dockerfile` in your plugin needs to pass `LANGS` to each make task
+  in `docs-builder` that is called.
+* You need to update the jenkins deploy scripts (stored in cakephp/docs) to pass
+  `LANGS` when rebuilding elasticsearch indexes.
