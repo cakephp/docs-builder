@@ -68,7 +68,7 @@ website-dirs:
 	# Make the directory if its not there already.
 	[ ! -d $(DEST) ] && mkdir $(DEST) || true
 
-website: website-dirs html populate-index
+website: website-dirs html
 
 # SOURCE should be set to the directory containing the DEST directory of `website`
 move-website:
