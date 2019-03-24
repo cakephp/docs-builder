@@ -17,7 +17,7 @@ FROM markstory/cakephp-docs-builder
 COPY docs /data/docs
 
 RUN cd /data/docs-builder && \
-  make website SOURCE=/data/docs DEST=/data/website INDEX_PREFIX='myplugin-11' && \
+  make website SOURCE=/data/docs DEST=/data/website && \
   make move-website DEST=/var/www/html/1.1
 ```
 
@@ -44,7 +44,8 @@ from cakephpsphinx.config.all import *
 # The full version, including alpha/beta/rc tags.
 release = '1.1'
 
-# The search index version.
+# The search index version. This needs to match
+# the INDEX_PREFIX variable used when `make populate-index` is called.
 search_version = 'authorization-11'
 
 # The marketing display name for the book.
