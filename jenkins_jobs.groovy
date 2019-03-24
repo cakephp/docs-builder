@@ -25,10 +25,10 @@ git push -fv dokku master
     ''')
   }
   publishers {
-    slackNotifications {
-      projectChannel('#dev')
-      notifyFailure()
-      notifyRepeatedFailure()
+    slackNotifier {
+      room('#dev')
+      notifyFailure(true)
+      notifyRepeatedFailure(true)
     }
   }
 }
