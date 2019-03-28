@@ -32,7 +32,7 @@ function main($argv)
     $indexName = $argv[2];
 
     if (!empty($argv[3])) {
-        define('ES_HOST', $argv[2]);
+        define('ES_HOST', $argv[3]);
     } else {
         define('ES_HOST', ES_DEFAULT_HOST);
     }
