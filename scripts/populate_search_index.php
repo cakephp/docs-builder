@@ -42,7 +42,7 @@ function main($argv)
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
     foreach ($matcher as $file) {
-        updateIndex($indexName, $file);
+        updateIndex($indexName, $sourceDir, $file);
     }
 
     echo "\nIndex update complete\n";
@@ -55,10 +55,11 @@ function main($argv)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($indexName, $file)
+function updateIndex($indexName, $sourceDir, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
+    $filename = substr($filename, strlen($sourceDir));
     list($filename) = explode('.', $filename);
 
     $path = $filename . '.html';
