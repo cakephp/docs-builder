@@ -22,7 +22,7 @@ cd ..
 
 # Push to dokku
 git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:authorization-docs
-git push -fv dokku master
+git push -fv dokku HEAD:refs/heads/master
     ''')
   }
   publishers {
