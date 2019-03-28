@@ -14,6 +14,7 @@ job('Book - Deploy Authorization docs') {
   steps {
     shell('''\
 # Get docs-builder to populate index
+rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" INDEX_PREFIX="authorization-11"
