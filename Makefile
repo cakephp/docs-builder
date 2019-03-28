@@ -58,11 +58,11 @@ server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
 
 populate-index-%:
-	php scripts/populate_search_index.php "$(SOURCE)/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
+	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
 
 rebuild-index-%:
 	curl -XDELETE $(ES_HOST)/documentation/$(INDEX_PREFIX)-$*
-	php scripts/populate_search_index.php "$(SOURCE)/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
+	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
 
 website-dirs:
 	# Make the directory if its not there already.
