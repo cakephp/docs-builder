@@ -30,9 +30,10 @@ function main($argv)
     }
     $sourceDir = $argv[1];
     $indexName = $argv[2];
+    $urlPrefix = $argv[3];
 
-    if (!empty($argv[3])) {
-        define('ES_HOST', $argv[3]);
+    if (!empty($argv[4])) {
+        define('ES_HOST', $argv[4]);
     } else {
         define('ES_HOST', ES_DEFAULT_HOST);
     }
@@ -42,7 +43,7 @@ function main($argv)
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
     foreach ($matcher as $file) {
-        updateIndex($indexName, $sourceDir, $file);
+        updateIndex($indexName, $urlPrefix, $sourceDir, $file);
     }
 
     echo "\nIndex update complete\n";
@@ -52,10 +53,11 @@ function main($argv)
  * Update the index for a given language
  *
  * @param string $lang The language to update, e.g. "en".
+ * @param string $urlPrefix The search result url prefix `
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($indexName, $sourceDir, $file)
+function updateIndex($indexName, $urlPrefix, $sourceDir, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
@@ -63,6 +65,8 @@ function updateIndex($indexName, $sourceDir, $file)
     list($filename) = explode('.', $filename);
 
     $path = $filename . '.html';
+    $path = str_replace('//', '/', $urlPrefix . '/' . $path);
+
     $id = str_replace('/', '-', $filename);
     $id = trim($id, '-');
 

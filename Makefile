@@ -11,7 +11,8 @@ ES_HOST =
 SOURCE := $(shell pwd)
 DEST := ./website
 LANG = en
-INDEX_PREFIX =
+SEARCH_INDEX_NAME = 
+SEARCH_URL_PREFIX = 
 ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c $(SOURCE)/$(LANG) $(SPHINXOPTS)
 
 # Tool names
@@ -58,11 +59,11 @@ server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
 
 populate-index-%:
-	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
+	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(SEARCH_INDEX_NAME)-$*" "$(SEARCH_URL_PREFIX)/$*" $(ES_HOST)
 
 rebuild-index-%:
-	curl -XDELETE $(ES_HOST)/documentation/$(INDEX_PREFIX)-$*
-	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(INDEX_PREFIX)-$*" $(ES_HOST)
+	curl -XDELETE $(ES_HOST)/documentation/$(SEARCH_INDEX_NAME)-$*
+	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(SEARCH_INDEX_NAME)-$*" "$(SEARCH_URL_PREFIX)/$*" $(ES_HOST)
 
 website-dirs:
 	# Make the directory if its not there already.

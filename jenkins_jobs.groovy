@@ -17,7 +17,8 @@ job('Book - Deploy Authorization docs') {
 rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
-make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" INDEX_PREFIX="authorization-11"
+# Build index for each version.
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="authorization-11" SEARCH_URL_PREFIX="/authorization/1.1"
 cd ..
 
 # Push to dokku
