@@ -103,5 +103,19 @@ be updated separately:
 * Each translation needs to set `language` in its configuration file.
 * The `docs.Dockerfile` in your plugin needs to pass `LANGS` to each make task
   in `docs-builder` that is called.
-* You need to update the jenkins deploy scripts (stored in cakephp/docs) to pass
+* You need to update the jenkins deploy scripts in this repository to pass
   `LANGS` when rebuilding elasticsearch indexes.
+* Update build jobs in jenkins.
+
+
+# Pushing update of this project's docker image
+
+When you make changes to either cakephp/cakephpsphinx or this repository you
+need to publish a new docker image and update the cakephp server.
+
+1. `docker build -t markstory/cakephp-docs-builder .`
+2. `docker push markstory/cakephp-docs-builder`
+3. ssh into new.cakephp.org
+4. `docker pull markstory/cakephp-docs-builder` to get the new image.
+
+Plugins will use the new base image when they next have their docs deployed.
