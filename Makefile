@@ -5,15 +5,16 @@
 PYTHON = python
 ES_HOST =
 
-.PHONY: all clean html website website-dirs rebuild-index build-html move-website
+.PHONY: all clean html website website-dirs rebuild-index build-html
 
 # You can set these variables from the command line.
 SOURCE := $(shell pwd)
-DEST := ./website
+# Output directory for the current operation
+DEST := ./output
 LANG = en
 SEARCH_INDEX_NAME = 
 SEARCH_URL_PREFIX = 
-ALLSPHINXOPTS = -d $(BUILD_DIR)/doctrees/$(LANG) -c $(SOURCE)/$(LANG) $(SPHINXOPTS)
+ALLSPHINXOPTS = -d $(DEST)/doctrees/$(LANG) -c $(SOURCE)/$(LANG) $(SPHINXOPTS)
 
 # Tool names
 SPHINXBUILD = sphinx-build
@@ -24,9 +25,6 @@ LANGS = en
 
 # Get path to theme directory to build static assets.
 THEME_DIR = $(shell python -c 'import os, cakephpsphinx; print os.path.abspath(os.path.dirname(cakephpsphinx.__file__))')
-
-# Temporary build output directory
-BUILD_DIR = ./build
 
 
 # Copy-paste the English Makefile everywhere it's needed (if non existing).
@@ -47,11 +45,11 @@ rebuild-index: $(foreach lang, $(LANGS), rebuild-index-$(lang))
 # Make the HTML version of the documentation with correctly nested language folders.
 html-%:
 	make build-html LANG=$* SOURCE=$(SOURCE) DEST=$(DEST)
-	make build/html/$*/_static/css/app.css SOURCE=$(SOURCE)
-	make build/html/$*/_static/app.js SOURCE=$(SOURCE)
+	make $(DEST)/html/$*/_static/css/app.css SOURCE=$(SOURCE)
+	make $(DEST)/html/$*/_static/app.js SOURCE=$(SOURCE)
 
 build-html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(SOURCE)/$(LANG) $(BUILD_DIR)/html/$(LANG)
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(SOURCE)/$(LANG) $(DEST)/html/$(LANG)
 	@echo
 	@echo "Build finished. The HTML pages are in $(DEST)/html/$(LANG)."
 
@@ -71,21 +69,16 @@ website-dirs:
 
 website: website-dirs html
 
-# SOURCE should be set to the directory containing the DEST directory of `website`
-move-website:
-	mkdir -p $(DEST)
-	mv $(BUILD_DIR)/html/* $(DEST)
-
 clean:
 	rm -rf build/*
 
 clean-website:
 	rm -rf $(DEST)/*
 
-build/html/%/_static:
+$(DEST)/html/%/_static:
 	mkdir -p build/html/$*/_static
 
-build/html/%/_static/css: build/html/%/_static
+$(DEST)/html/%/_static/css: $(DEST)/html/%/_static
 	mkdir -p build/html/$*/_static/css
 
 CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
@@ -96,7 +89,7 @@ CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
   $(THEME_DIR)/themes/cakephp/static/css/pygments.css \
   $(THEME_DIR)/themes/cakephp/static/css/responsive.css
 
-build/html/%/_static/css/app.css: build/html/%/_static/css $(CSS_FILES)
+$(DEST)/html/%/_static/css/app.css: $(DEST)/html/%/_static/css $(CSS_FILES)
 	# echo all dependencies ($$^) into the output ($$@)
 	cat $(CSS_FILES) > $@
 
@@ -106,6 +99,6 @@ JS_FILES = $(THEME_DIR)/themes/cakephp/static/jquery.js \
   $(THEME_DIR)/themes/cakephp/static/search.js \
   $(THEME_DIR)/themes/cakephp/static/typeahead.js
 
-build/html/%/_static/app.js: build/html/%/_static $(JS_FILES)
+$(DEST)/html/%/_static/app.js: $(DEST)/html/%/_static $(JS_FILES)
 	# echo all dependencies ($JS_FILES) into the output ($$@)
 	cat $(JS_FILES) > $@
