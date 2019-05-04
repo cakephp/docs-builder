@@ -90,7 +90,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="debugkit-11" SEARCH_URL_PREFIX="/debugkit/1.1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="debugkit-3" SEARCH_URL_PREFIX="/debugkit/3.x"
 cd ..
 
 # Push to dokku
