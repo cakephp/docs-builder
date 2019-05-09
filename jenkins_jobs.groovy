@@ -1,7 +1,8 @@
 def final AUTHORIZATION_REPO_NAME = 'cakephp/authorization'
 def final AUTHENTICATION_REPO_NAME = 'cakephp/authentication'
-def final DEBUGKIT_REPO_NAME = 'cakephp/debug_kit'
+def final BAKE_REPO_NAME = 'cakephp/bake'
 def final CHRONOS_REPO_NAME = 'cakephp/chronos'
+def final DEBUGKIT_REPO_NAME = 'cakephp/debug_kit'
 
 job('Book - Deploy Authorization docs') {
   description('Deploy the authorization docs when changes are pushed.')
@@ -131,6 +132,41 @@ cd ..
 
 # Push to dokku
 git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:chronos-docs
+git push -fv dokku HEAD:refs/heads/master
+    ''')
+  }
+  publishers {
+    slackNotifier {
+      room('#dev')
+      notifyFailure(true)
+      notifyRepeatedFailure(true)
+    }
+  }
+}
+
+job('Book - Deploy Bake docs') {
+  description('Deploy the bake docs when changes are pushed.')
+  scm {
+    github(BAKE_REPO_NAME, 'master')
+  }
+  triggers {
+    scm('H/5 * * * *')
+  }
+  logRotator {
+    daysToKeep(30)
+  }
+  steps {
+    shell('''\
+# Get docs-builder to populate index
+rm -rf docs-builder
+git clone https://github.com/cakephp/docs-builder
+cd docs-builder
+# Build index for each version.
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="bake-1" SEARCH_URL_PREFIX="/bake/1.x"
+cd ..
+
+# Push to dokku
+git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:bake-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
