@@ -175,7 +175,6 @@ cd docs-builder
 
 # Build 1.x index
 make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="bake-1" SEARCH_URL_PREFIX="/bake/1.x"
-cd ..
 
 # Build 2.x index
 cd ..
