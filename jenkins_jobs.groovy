@@ -216,8 +216,8 @@ git push -fv dokku HEAD:refs/heads/master
   }
 }
 
-job('Book - Deploy Chronos docs') {
-  description('Deploy the chronos docs when changes are pushed.')
+job('Book - Deploy Chronos 1.x docs') {
+  description('Deploy the chronos 1.x docs when changes are pushed.')
   scm {
     github(CHRONOS_REPO_NAME, 'master')
   }
@@ -239,6 +239,42 @@ cd ..
 
 # Push to dokku
 git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:chronos-docs
+git push -fv dokku HEAD:refs/heads/master
+    ''')
+  }
+  publishers {
+    slackNotifier {
+      room('#dev')
+      notifyFailure(true)
+      notifyRepeatedFailure(true)
+    }
+  }
+}
+
+
+job('Book - Deploy Chronos 2.x docs') {
+  description('Deploy the chronos 2.x docs when changes are pushed.')
+  scm {
+    github(CHRONOS_REPO_NAME, '2.x')
+  }
+  triggers {
+    scm('H/5 * * * *')
+  }
+  logRotator {
+    daysToKeep(30)
+  }
+  steps {
+    shell('''\
+# Get docs-builder to populate index
+rm -rf docs-builder
+git clone https://github.com/cakephp/docs-builder
+cd docs-builder
+# Build index for each version.
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="chronos-2" SEARCH_URL_PREFIX="/chronos/2.x"
+cd ..
+
+# Push to dokku
+git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:chronos-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
