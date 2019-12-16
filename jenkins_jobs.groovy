@@ -9,7 +9,7 @@ def final MIGRATIONS_REPO_NAME = 'cakephp/migrations'
 job('Book - Deploy Authorization 1.x docs') {
   description('Deploy the authorization 1.x docs when changes are pushed.')
   scm {
-    github(AUTHORIZATION_REPO_NAME, 'master')
+    github(AUTHORIZATION_REPO_NAME, '1.x')
   }
   triggers {
     scm('H/5 * * * *')
@@ -44,7 +44,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Authorization 2.x docs') {
   description('Deploy the authorization 2.x docs when changes are pushed.')
   scm {
-    github(AUTHORIZATION_REPO_NAME, '2.x')
+    github(AUTHORIZATION_REPO_NAME, 'master')
   }
   triggers {
     scm('H/5 * * * *')
@@ -79,7 +79,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Authentication 1.x docs') {
   description('Deploy the authentication 1.x docs when changes are pushed.')
   scm {
-    github(AUTHENTICATION_REPO_NAME, 'master')
+    github(AUTHENTICATION_REPO_NAME, '1.x')
   }
   triggers {
     scm('H/5 * * * *')
@@ -114,7 +114,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Authentication 2.x docs') {
   description('Deploy the authentication 2.x docs when changes are pushed.')
   scm {
-    github(AUTHENTICATION_REPO_NAME, '2.x')
+    github(AUTHENTICATION_REPO_NAME, 'master')
   }
   triggers {
     scm('H/5 * * * *')
@@ -149,7 +149,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy DebugKit 3.x docs') {
   description('Deploy the debugkit 3.x docs when changes are pushed.')
   scm {
-    github(DEBUGKIT_REPO_NAME, 'master')
+    github(DEBUGKIT_REPO_NAME, '3.x')
   }
   triggers {
     scm('H/5 * * * *')
@@ -184,7 +184,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy DebugKit 4.x docs') {
   description('Deploy the debugkit 4.x docs when changes are pushed.')
   scm {
-    github(DEBUGKIT_REPO_NAME, '4.x')
+    github(DEBUGKIT_REPO_NAME, 'master')
   }
   triggers {
     scm('H/5 * * * *')
@@ -219,7 +219,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Chronos 1.x docs') {
   description('Deploy the chronos 1.x docs when changes are pushed.')
   scm {
-    github(CHRONOS_REPO_NAME, 'master')
+    github(CHRONOS_REPO_NAME, '1.x')
   }
   triggers {
     scm('H/5 * * * *')
@@ -255,7 +255,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Chronos 2.x docs') {
   description('Deploy the chronos 2.x docs when changes are pushed.')
   scm {
-    github(CHRONOS_REPO_NAME, '2.x')
+    github(CHRONOS_REPO_NAME, 'master')
   }
   triggers {
     scm('H/5 * * * *')
@@ -290,7 +290,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Bake 1.x docs') {
   description('Deploy the bake 1.x docs when changes are pushed.')
   scm {
-    github(BAKE_REPO_NAME, 'master')
+    github(BAKE_REPO_NAME, '1.x')
   }
   triggers {
     scm('H/5 * * * *')
@@ -326,7 +326,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy Bake 2.x docs') {
   description('Deploy the bake 2.x docs when changes are pushed.')
   scm {
-    github(BAKE_REPO_NAME, '4.x')
+    github(BAKE_REPO_NAME, 'master')
   }
   triggers {
     scm('H/5 * * * *')
@@ -451,7 +451,7 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:migrations-docs
+git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:migrations-docs-3
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
