@@ -487,7 +487,7 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:phinx-docs-1
+git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:phinx-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
