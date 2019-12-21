@@ -483,7 +483,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="phinx-1" SEARCH_URL_PREFIX="/phinx/1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="phinx-0" SEARCH_URL_PREFIX="/phinx/0"
 cd ..
 
 # Push to dokku
