@@ -29,7 +29,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:authorization-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:authorization-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -64,7 +65,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:authorization-docs-2
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:authorization-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -99,7 +101,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:authentication-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:authentication-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -134,7 +137,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:authentication-docs-2
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:authentication-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -169,7 +173,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:debugkit-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:debugkit-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -204,7 +209,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:debugkit-docs-4
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:debugkit-docs-4
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -239,7 +245,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:chronos-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:chronos-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -275,7 +282,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:chronos-docs-2
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:chronos-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -311,7 +319,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:bake-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:bake-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -347,7 +356,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:bake-docs-2
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:bake-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -382,7 +392,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:elasticsearch-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:elasticsearch-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -417,7 +428,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:migrations-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:migrations-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -452,7 +464,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:migrations-docs-3
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:migrations-docs-3
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -487,7 +500,8 @@ make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDE
 cd ..
 
 # Push to dokku
-git remote | grep dokku || git remote add dokku dokku@new.cakephp.org:phinx-docs
+git remote rm dokku || true
+git remote add dokku dokku@sites.cakephp.org:phinx-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
