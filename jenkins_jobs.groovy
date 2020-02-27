@@ -30,7 +30,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:authorization-docs
+git remote add dokku dokku@apps.cakephp.org:authorization-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -66,7 +66,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:authorization-docs-2
+git remote add dokku dokku@apps.cakephp.org:authorization-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -102,7 +102,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:authentication-docs
+git remote add dokku dokku@apps.cakephp.org:authentication-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -138,7 +138,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:authentication-docs-2
+git remote add dokku dokku@apps.cakephp.org:authentication-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -174,7 +174,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:debugkit-docs
+git remote add dokku dokku@apps.cakephp.org:debugkit-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -210,7 +210,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:debugkit-docs-4
+git remote add dokku dokku@apps.cakephp.org:debugkit-docs-4
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -246,7 +246,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:chronos-docs
+git remote add dokku dokku@apps.cakephp.org:chronos-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -283,7 +283,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:chronos-docs-2
+git remote add dokku dokku@apps.cakephp.org:chronos-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -320,7 +320,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:bake-docs
+git remote add dokku dokku@apps.cakephp.org:bake-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -357,7 +357,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:bake-docs-2
+git remote add dokku dokku@apps.cakephp.org:bake-docs-2
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -393,7 +393,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:elasticsearch-docs
+git remote add dokku dokku@apps.cakephp.org:elasticsearch-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -429,7 +429,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:migrations-docs
+git remote add dokku dokku@apps.cakephp.org:migrations-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -465,7 +465,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:migrations-docs-3
+git remote add dokku dokku@apps.cakephp.org:migrations-docs-3
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
@@ -501,7 +501,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@sites.cakephp.org:phinx-docs
+git remote add dokku dokku@apps.cakephp.org:phinx-docs
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
