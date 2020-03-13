@@ -59,7 +59,7 @@ server-%:
 
 populate-index-%:
 	php scripts/populate_search_index.php --compat --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
-	php scripts/populate_search_index.php --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
+	php scripts/populate_search_index.php --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST_V2)" --url-prefix="$(SEARCH_URL_PREFIX)"
 
 rebuild-index-%:
 	curl -XDELETE $(ES_HOST)/documentation/$(SEARCH_INDEX_NAME)-$*
