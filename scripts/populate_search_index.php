@@ -24,9 +24,9 @@ const FILE_EXCLUSIONS = [
  * @param array $argv The array of CLI arguments, 1: language, 2. Elastic search host.
  * @return void
  */
-function main($argv)
+function main()
 {
-    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:', 'compat']);
+    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:', 'old-index:', 'compat']);
     if (empty($options['lang'])) {
         echo "A language to scan is required.\n";
         exit(1);
@@ -53,6 +53,10 @@ function main($argv)
     if (isset($options['compat'])) {
         define('OLD_INDEX', true);
     }
+    $oldIndex = null;
+    if (isset($options['old-index'])) {
+        $oldIndex = $options['old-index'];
+    }
 
     $directory = new RecursiveDirectoryIterator($source);
     $recurser = new RecursiveIteratorIterator($directory);
@@ -73,7 +77,7 @@ function main($argv)
         }
 
         if (!$skip) {
-            updateIndex($urlPrefix, $lang, $source, $file, $argv);
+            updateIndex($urlPrefix, $lang, $source, $file, $oldIndex);
         }
     }
 
@@ -119,7 +123,7 @@ function setMapping($urlPrefix, $lang)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($urlPrefix, $lang, $source, $file, $argv)
+function updateIndex($urlPrefix, $lang, $source, $file, $oldIndex)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
@@ -134,7 +138,7 @@ function updateIndex($urlPrefix, $lang, $source, $file, $argv)
     $id = trim($id, '-');
 
     if (defined('OLD_INDEX')) {
-        $url = implode('/', array(ES_HOST, 'documentation', $argv[2] . '-' . $lang, $id));
+        $url = implode('/', array(ES_HOST, 'documentation', $oldIndex . '-' . $lang, $id));
     } else {
         $indexName = getIndexName($urlPrefix, $lang);
         $url = implode('/', array(ES_HOST, $indexName, '_doc', $id));
@@ -220,4 +224,4 @@ function doRequest($url, $method, $body = null)
     }
 }
 
-main($argv);
+main();

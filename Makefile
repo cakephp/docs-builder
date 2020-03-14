@@ -13,8 +13,8 @@ SOURCE := $(shell pwd)
 # Output directory for the current operation
 DEST := ./output
 LANG = en
-SEARCH_INDEX_NAME = 
-SEARCH_URL_PREFIX = 
+SEARCH_INDEX_NAME =
+SEARCH_URL_PREFIX =
 ALLSPHINXOPTS = -d $(DEST)/doctrees/$(LANG) -c $(SOURCE)/$(LANG) $(SPHINXOPTS)
 
 # Tool names
@@ -58,7 +58,7 @@ server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
 
 populate-index-%:
-	php scripts/populate_search_index.php --compat --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
+	php scripts/populate_search_index.php --compat --old-index="$(SEARCH_INDEX_NAME)" --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
 	php scripts/populate_search_index.php --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST_V2)" --url-prefix="$(SEARCH_URL_PREFIX)"
 
 rebuild-index-%:
