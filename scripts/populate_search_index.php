@@ -131,7 +131,7 @@ function updateIndex($urlPrefix, $lang, $source, $file, $oldIndex)
     list($filename) = explode('.', $filename);
 
     $path = $filename . '.html';
-    $path = str_replace('//', '/', $urlPrefix . '/' . $path);
+    $path = str_replace('//', '/', $urlPrefix . '/' . $lang . '/' . $path);
 
     $id = str_replace($lang . '/', '', $filename);
     $id = str_replace('/', '-', $id);
