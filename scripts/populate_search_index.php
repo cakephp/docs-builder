@@ -26,7 +26,7 @@ const FILE_EXCLUSIONS = [
  */
 function main()
 {
-    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:', 'old-index:', 'compat']);
+    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:', 'old-index:']);
     if (empty($options['lang'])) {
         echo "A language to scan is required.\n";
         exit(1);
@@ -50,21 +50,12 @@ function main()
     } else {
         define('ES_HOST', ES_DEFAULT_HOST);
     }
-    if (isset($options['compat'])) {
-        define('OLD_INDEX', true);
-    }
-    $oldIndex = null;
-    if (isset($options['old-index'])) {
-        $oldIndex = $options['old-index'];
-    }
 
     $directory = new RecursiveDirectoryIterator($source);
     $recurser = new RecursiveIteratorIterator($directory);
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
-    if (!defined('OLD_INDEX')) {
-        setMapping($urlPrefix, $lang);
-    }
+    setMapping($urlPrefix, $lang);
 
     foreach ($matcher as $file) {
         $skip = false;
@@ -123,7 +114,7 @@ function setMapping($urlPrefix, $lang)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($urlPrefix, $lang, $source, $file, $oldIndex)
+function updateIndex($urlPrefix, $lang, $source, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
@@ -137,12 +128,8 @@ function updateIndex($urlPrefix, $lang, $source, $file, $oldIndex)
     $id = str_replace('/', '-', $id);
     $id = trim($id, '-');
 
-    if (defined('OLD_INDEX')) {
-        $url = implode('/', array(ES_HOST, 'documentation', $oldIndex . '-' . $lang, $id));
-    } else {
-        $indexName = getIndexName($urlPrefix, $lang);
-        $url = implode('/', array(ES_HOST, $indexName, '_doc', $id));
-    }
+    $indexName = getIndexName($urlPrefix, $lang);
+    $url = implode('/', array(ES_HOST, $indexName, '_doc', $id));
 
     $data = json_encode([
         'contents' => $fileData['contents'],
