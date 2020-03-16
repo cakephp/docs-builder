@@ -25,7 +25,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="authorization-11" SEARCH_URL_PREFIX="/authorization/1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="authorization-11" SEARCH_URL_PREFIX="/authorization/1"
 cd ..
 
 # Push to dokku
@@ -61,7 +61,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="authorization-2" SEARCH_URL_PREFIX="/authorization/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="authorization-2" SEARCH_URL_PREFIX="/authorization/2"
 cd ..
 
 # Push to dokku
@@ -97,7 +97,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="authentication-11" SEARCH_URL_PREFIX="/authentication/1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="authentication-11" SEARCH_URL_PREFIX="/authentication/1"
 cd ..
 
 # Push to dokku
@@ -133,7 +133,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="authentication-2" SEARCH_URL_PREFIX="/authentication/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="authentication-2" SEARCH_URL_PREFIX="/authentication/2"
 cd ..
 
 # Push to dokku
@@ -169,7 +169,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="debugkit-3" SEARCH_URL_PREFIX="/debugkit/3"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="debugkit-3" SEARCH_URL_PREFIX="/debugkit/3"
 cd ..
 
 # Push to dokku
@@ -205,7 +205,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="debugkit-4" SEARCH_URL_PREFIX="/debugkit/4"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="debugkit-4" SEARCH_URL_PREFIX="/debugkit/4"
 cd ..
 
 # Push to dokku
@@ -241,7 +241,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="chronos-1" SEARCH_URL_PREFIX="/chronos/1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="chronos-1" SEARCH_URL_PREFIX="/chronos/1"
 cd ..
 
 # Push to dokku
@@ -278,7 +278,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="chronos-2" SEARCH_URL_PREFIX="/chronos/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="chronos-2" SEARCH_URL_PREFIX="/chronos/2"
 cd ..
 
 # Push to dokku
@@ -315,7 +315,7 @@ git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 
 # Build index
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="bake-1" SEARCH_URL_PREFIX="/bake/1"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="bake-1" SEARCH_URL_PREFIX="/bake/1"
 cd ..
 
 # Push to dokku
@@ -352,7 +352,7 @@ git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 
 # Build index
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="bake-2" SEARCH_URL_PREFIX="/bake/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="bake-2" SEARCH_URL_PREFIX="/bake/2"
 cd ..
 
 # Push to dokku
@@ -388,7 +388,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="elasticsearch-2" SEARCH_URL_PREFIX="/elasticsearch/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="elasticsearch-2" SEARCH_URL_PREFIX="/elasticsearch/2"
 cd ..
 
 # Push to dokku
@@ -424,7 +424,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="migrations-2" SEARCH_URL_PREFIX="/migrations/2"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="migrations-2" SEARCH_URL_PREFIX="/migrations/2"
 cd ..
 
 # Push to dokku
@@ -460,7 +460,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="migrations-3" SEARCH_URL_PREFIX="/migrations/3"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="migrations-3" SEARCH_URL_PREFIX="/migrations/3"
 cd ..
 
 # Push to dokku
@@ -496,7 +496,7 @@ rm -rf docs-builder
 git clone https://github.com/cakephp/docs-builder
 cd docs-builder
 # Build index for each version.
-make populate-index SOURCE="$WORKSPACE" ES_HOST_V2="$DOKKU_ELASTICSEARCH_AQUA_URL" ES_HOST="$ELASTICSEARCH_URL" SEARCH_INDEX_NAME="phinx-0" SEARCH_URL_PREFIX="/phinx/0"
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_INDEX_NAME="phinx-0" SEARCH_URL_PREFIX="/phinx/0"
 cd ..
 
 # Push to dokku
