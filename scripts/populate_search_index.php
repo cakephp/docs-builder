@@ -26,7 +26,7 @@ const FILE_EXCLUSIONS = [
  */
 function main()
 {
-    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:', 'old-index:']);
+    $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:']);
     if (empty($options['lang'])) {
         echo "A language to scan is required.\n";
         exit(1);
