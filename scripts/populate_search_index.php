@@ -68,7 +68,7 @@ function main()
         }
 
         if (!$skip) {
-            updateIndex($urlPrefix, $lang, $source, $file, $oldIndex);
+            updateIndex($urlPrefix, $lang, $source, $file);
         }
     }
 
