@@ -393,7 +393,7 @@ cd ..
 
 # Push to dokku
 git remote rm dokku || true
-git remote add dokku dokku@apps.cakephp.org:elasticsearch-docs
+git remote add dokku dokku@apps.cakephp.org:elasticsearch-docs-3
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
