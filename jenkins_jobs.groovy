@@ -370,10 +370,46 @@ git push -fv dokku HEAD:refs/heads/master
   }
 }
 
-job('Book - Deploy elasticsearch docs') {
+job('Book - Deploy Elasticsearch 3.x docs') {
   description('Deploy the elasticsearch docs when changes are pushed.')
   scm {
     github(ELASTICSEARCH_REPO_NAME, 'master')
+  }
+  triggers {
+    scm('H/5 * * * *')
+  }
+  logRotator {
+    daysToKeep(30)
+  }
+  steps {
+    shell('''\
+# Get docs-builder to populate index
+rm -rf docs-builder
+git clone https://github.com/cakephp/docs-builder
+cd docs-builder
+# Build index for each version.
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_URL_PREFIX="/elasticsearch/3"
+cd ..
+
+# Push to dokku
+git remote rm dokku || true
+git remote add dokku dokku@apps.cakephp.org:elasticsearch-docs
+git push -fv dokku HEAD:refs/heads/master
+    ''')
+  }
+  publishers {
+    slackNotifier {
+      room('#dev')
+      notifyFailure(true)
+      notifyRepeatedFailure(true)
+    }
+  }
+}
+
+job('Book - Deploy Elasticsearch 2.x docs') {
+  description('Deploy the elasticsearch docs when changes are pushed.')
+  scm {
+    github(ELASTICSEARCH_REPO_NAME, '2.x')
   }
   triggers {
     scm('H/5 * * * *')
