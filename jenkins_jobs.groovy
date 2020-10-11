@@ -6,6 +6,7 @@ def final DEBUGKIT_REPO_NAME = 'cakephp/debug_kit'
 def final ELASTICSEARCH_REPO_NAME = 'cakephp/elastic-search'
 def final MIGRATIONS_REPO_NAME = 'cakephp/migrations'
 def final PHINX_REPO_NAME = 'cakephp/phinx'
+def final QUEUE_REPO_NAME = 'cakephp/queue'
 
 job('Book - Deploy Authorization 1.x docs') {
   description('Deploy the authorization 1.x docs when changes are pushed.')
@@ -538,6 +539,42 @@ cd ..
 # Push to dokku
 git remote rm dokku || true
 git remote add dokku dokku@apps.cakephp.org:phinx-docs
+git push -fv dokku HEAD:refs/heads/master
+    ''')
+  }
+  publishers {
+    slackNotifier {
+      room('#dev')
+      notifyFailure(true)
+      notifyRepeatedFailure(true)
+    }
+  }
+}
+
+job('Book - Deploy Queue 1.x docs') {
+  description('Deploy the queue 1.x docs when changes are pushed.')
+  scm {
+    github(QUEUE_REPO_NAME, 'master')
+  }
+  triggers {
+    scm('H/5 * * * *')
+  }
+  logRotator {
+    daysToKeep(30)
+  }
+  steps {
+    shell('''\
+# Get docs-builder to populate index
+rm -rf docs-builder
+git clone https://github.com/cakephp/docs-builder
+cd docs-builder
+# Build index for each version.
+make populate-index SOURCE="$WORKSPACE" ES_HOST="$DOKKU_ELASTICSEARCH_AQUA_URL" SEARCH_URL_PREFIX="/queue/1"
+cd ..
+
+# Push to dokku
+git remote rm dokku || true
+git remote add dokku dokku@apps.cakephp.org:queue-docs-1
 git push -fv dokku HEAD:refs/heads/master
     ''')
   }
