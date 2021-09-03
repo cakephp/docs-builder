@@ -5,7 +5,7 @@ def final CHRONOS_REPO_NAME = 'cakephp/chronos'
 def final DEBUGKIT_REPO_NAME = 'cakephp/debug_kit'
 def final ELASTICSEARCH_REPO_NAME = 'cakephp/elastic-search'
 def final MIGRATIONS_REPO_NAME = 'cakephp/migrations'
-def final PHINX_REPO_NAME = 'cakephp/phinx'
+# def final PHINX_REPO_NAME = 'cakephp/phinx'
 def final QUEUE_REPO_NAME = 'cakephp/queue'
 
 job('Book - Deploy Authorization 1.x docs') {
@@ -518,9 +518,13 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy phinx master docs') {
   description('Deploy the phinx docs when changes are pushed.')
   scm {
-    github(PHINX_REPO_NAME, 'refs/tags/*') {
+    git {
+      remote {
+        name('origin')
+        url('https://github.com/cakephp/phinx')
+      }
+      branch('refs/tags/*')
       extensions {
-        cleanBeforeCheckout()
         wipeOutWorkspace()
       }
     }
