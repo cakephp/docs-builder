@@ -518,7 +518,7 @@ git push -fv dokku HEAD:refs/heads/master
 job('Book - Deploy phinx master docs') {
   description('Deploy the phinx docs when changes are pushed.')
   scm {
-    github(PHINX_REPO_NAME, 'master')
+    github(PHINX_REPO_NAME, 'refs/tags/*')
   }
   triggers {
     scm('H/5 * * * *')
