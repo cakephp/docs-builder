@@ -519,8 +519,10 @@ job('Book - Deploy phinx master docs') {
   description('Deploy the phinx docs when changes are pushed.')
   scm {
     github(PHINX_REPO_NAME, 'refs/tags/*') {
-      extensions {
-        wipeOutWorkspace()
+      git {
+        extensions {
+          wipeOutWorkspace()
+        }
       }
     }
   }
