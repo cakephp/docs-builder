@@ -5,7 +5,6 @@ def final CHRONOS_REPO_NAME = 'cakephp/chronos'
 def final DEBUGKIT_REPO_NAME = 'cakephp/debug_kit'
 def final ELASTICSEARCH_REPO_NAME = 'cakephp/elastic-search'
 def final MIGRATIONS_REPO_NAME = 'cakephp/migrations'
-# def final PHINX_REPO_NAME = 'cakephp/phinx'
 def final QUEUE_REPO_NAME = 'cakephp/queue'
 
 job('Book - Deploy Authorization 1.x docs') {
