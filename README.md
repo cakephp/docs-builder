@@ -126,7 +126,7 @@ need to publish a new docker image and update the cakephp server.
 
 1. `docker build -t markstory/cakephp-docs-builder .`
 2. `docker push markstory/cakephp-docs-builder`
-3. ssh into new.cakephp.org
-4. `docker pull markstory/cakephp-docs-builder` to get the new image.
+3. `docker build -t markstory/cakephp-docs-builder:runtime -f runtime.Dockerfile .`
+2. `docker push markstory/cakephp-docs-builder:runtime`
 
 Plugins will use the new base image when they next have their docs deployed.
