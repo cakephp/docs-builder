@@ -84,8 +84,8 @@ function getIndexName($urlPrefix, $lang)
 function setMapping($urlPrefix, $lang)
 {
     $indexName = getIndexName($urlPrefix, $lang);
-    echo "Creating index.\n";
     $url = implode('/', array(ES_HOST, $indexName));
+    echo "Creating index: {$url}\n";
     doRequest($url, CURLOPT_PUT);
 
     $mapping = [
@@ -99,8 +99,8 @@ function setMapping($urlPrefix, $lang)
       ],
     ];
     $data = json_encode(['mappings' => ['_doc' => $mapping]]);
-    echo "Updating mapping.\n";
     $url = implode('/', array(ES_HOST, $indexName, '_mapping', '_doc'));
+    echo "Updating mapping: {$url}\n";
     doRequest($url, CURLOPT_PUT, $data);
 }
 
