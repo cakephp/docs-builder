@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "dokku": {
+            "postdeploy": "sh /data/update-es.sh"
+        }
+    }
+}

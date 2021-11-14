@@ -1,11 +1,13 @@
 # Build a small nginx container with just the static site in it.
 FROM nginx:1.15-alpine
 
-# Janky but we could extract this into an image we re-use.
+# We also need PHP to update elastic search.
 RUN apk add --update php php-curl php-json
 
-# Copy the run script and search index build tool
+# Copy the run script (for backwards compat with existing plugin sites),
+# a script to update the site langauages based on environment variables
+# and a search index build tool to slice the source docs up and insert
+# into elastic search.
 COPY run.sh /data/run.sh
+COPY update-es.sh /data/update-es.sh
 COPY scripts/populate_search_index.php /data/populate_search_index.php
-
-CMD ["/data/run.sh"]

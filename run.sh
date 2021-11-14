@@ -1,11 +1,4 @@
 #!/bin/sh
-# Used as the CMD for the runtime.Dockerfile
-
-# Update elasticsearch indexes.
-for lang in ${LANGS}
-do
-    php /data/populate_search_index.php --source="$SEARCH_SOURCE/$*" --lang="$lang" --host="$ELASTICSEARCH_URL" --url-prefix="$SEARCH_URL_PREFIX"
-done
-
-# Run nginx
+# Run nginx. This script is only offered for backwards
+# compatibility with existing plugin site docker files.
 nginx -g 'daemon off;'
