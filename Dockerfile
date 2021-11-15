@@ -10,7 +10,10 @@ LABEL Description="Create an image to deploy the CakePHP plugin docs"
 # texlive-fonts-recommended
 # texlive-lang-all
 # latexmk
-RUN apk add --update git make
+RUN apk add --update \
+  git \
+  make \
+  texlive-full
 
 COPY . /data/docs-builder
 
