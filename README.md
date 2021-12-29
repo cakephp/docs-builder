@@ -1,7 +1,8 @@
 # CakePHP Plugin Docs Builder
 
 This repository provides common tools for building documentation sites for
-plugins maintained by the CakePHP team.
+plugins maintained by the CakePHP team. This build tooling is *not meant* for
+community plugins.
 
 
 ## Building docs with these tools
@@ -91,19 +92,7 @@ get the following:
 
 * A static HTML site built with sphinx, using the cakephp-sphinxtheme
 * Nginx serving out of `/var/www/html`.
-
-## What else you'll need to do
-
-When doing a deploy, the elasticsearch index will need to be rebuilt. You can
-do this by adding the following to your jenkins job task script:
-
-```bash
-# Get docs-builder to populate index
-git clone https:\/\/github.com/cakephp/docs-builder
-pushd docs-builder
-make populate-index SOURCE="$WORKSPACE" ES_HOST="$ELASTICSEARCH_URL" INDEX_PREFIX="myplugin-11"
-popd
-```
+* Dokku configuration for re-indexing content after the app starts up.
 
 ## Adding a translation to a plugin's docs
 
