@@ -58,7 +58,7 @@ function main()
     $buildIndex = getBuildIndexName($urlPrefix, $lang);
     $indexAlias = getIndexAliasName($urlPrefix, $lang);
 
-    ensureAlias($indexAlias);
+    $currentTarget = ensureAlias($indexAlias);
     setMapping($buildIndex);
 
     foreach ($matcher as $file) {
@@ -76,7 +76,7 @@ function main()
             updateIndex($buildIndex, $urlPrefix, $lang, $source, $file);
         }
     }
-    setAlias($buildIndex, $indexAlias);
+    setAlias($buildIndex, $indexAlias, $currentTarget);
 
     log('---------------------');
     log("Index update complete");
@@ -101,36 +101,62 @@ function getIndexAliasName($urlPrefix, $lang)
     return implode('-', [ES_INDEX_PREFIX, $indexName, $lang]);
 }
 
+/**
+ * Get the current alias target.
+ *
+ * Will return null on failure.
+ */
+function getCurrentAliasTarget($indexAlias)
+{
+    $url = implode('/', array(ES_HOST, '_alias', $indexAlias));
+    try {
+        $response = doRequest($url, CURLOPT_HTTPGET);
+    } catch (\Exception $error) {
+        // Likely a 404. But if it isn't we will nuke it and start over.
+        // This will incur a small amount of downtime but it should be rare.
+        return null;
+    }
 
+    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+    if (!$data) {
+        return null;
+    }
+
+    return array_keys($data)[0];
+}
+
+
+/**
+ * Ensure that indexAlias is an alias
+ * removing any existing indexes.
+ *
+ * @return string|null Either the alias' current target or null.
+ */
 function ensureAlias($indexAlias)
 {
     log("> Checking index alias {$indexAlias}");
-    $url = implode('/', array(ES_HOST, '_alias', $indexAlias));
-    $response = doRequest($url, CURLOPT_HTTPGET);
-    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
-
-    if (!empty($data)) {
-        return;
+    $currentTarget = getCurrentAliasTarget($indexAlias);
+    if ($currentTarget) { 
+        // If we have an alias with a target we are good to update it.
+        return $currentTarget;
     }
+
     log("!! No index alias exists. Migrating to index aliases.");
 
     log('!! Removing old index.');
     $url = implode('/', array(ES_HOST, $indexAlias));
     doRequest($url, 'DELETE');
+
+    return null;
 }
 
-function setAlias($buildIndex, $indexAlias)
+function setAlias($buildIndex, $indexAlias, $currentTarget)
 {
-    log("> Getting current alias target");
-    $url = implode('/', array(ES_HOST, '_alias', $indexAlias));
-    $response = doRequest($url, CURLOPT_HTTPGET);
-    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
-
     $actions = [];
-    if (!empty($data)) {
+    if ($currentTarget) {
         $actions[] = [
             "remove" => [
-                "index" => array_keys($data)[0],
+                "index" => $currentTarget,
                 "alias" => $indexAlias,
             ],
         ];
@@ -144,8 +170,11 @@ function setAlias($buildIndex, $indexAlias)
 
     log("> Setting alias {$indexAlias} to point to {$buildIndex}");
     $url = implode('/', array(ES_HOST, '_alias'));
-    $response = doRequest($url, CURLOPT_POST, ['actions' => $actions]);
-    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+    doRequest($url, CURLOPT_POST, ['actions' => $actions]);
+
+    if ($currentTarget) {
+        removeIndex($currentTarget);
+    }
 }
 
 function setMapping($indexName)
@@ -169,6 +198,14 @@ function setMapping($indexName)
 
     log("> Updating mapping: {$url}");
     doRequest($url, CURLOPT_PUT, $data);
+}
+
+function removeIndex($indexName)
+{
+    log("> Removing index: {$indexName}");
+    $url = implode('/', array(ES_HOST, $indexName));
+    doRequest($url, 'DELETE');
+
 }
 
 /**
@@ -273,9 +310,8 @@ function doRequest($url, $method, $body = null)
     $metadata = curl_getinfo($ch);
 
     if ($metadata['http_code'] > 400 || !$metadata['http_code']) {
-        log("[ERROR] Failed to complete request.");
-        var_dump($response);
-        exit(2);
+        $message = "Failed to complete request to $url\nResponse Body:\n" . $response;
+        throw new RuntimeException($message);
     }
     $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $body = substr($response, $headerSize);
