@@ -28,19 +28,19 @@ function main()
 {
     $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:']);
     if (empty($options['lang'])) {
-        echo "A language to scan is required.\n";
+        log("A language to scan is required.");
         exit(1);
     }
     $lang = $options['lang'];
 
     if (empty($options['source'])) {
-        echo "A source is required.\n";
+        log("A source is required.");
         exit(1);
     }
     $source = $options['source'];
 
     if (empty($options['url-prefix'])) {
-        echo "A url-prefix is required.\n";
+        log("A url-prefix is required.");
         exit(1);
     }
     $urlPrefix = $options['url-prefix'];
@@ -55,37 +55,103 @@ function main()
     $recurser = new RecursiveIteratorIterator($directory);
     $matcher = new RegexIterator($recurser, '/\.rst/');
 
-    setMapping($urlPrefix, $lang);
+    $buildIndex = getBuildIndexName($urlPrefix, $lang);
+    $indexAlias = getIndexAliasName($urlPrefix, $lang);
+
+    ensureAlias($indexAlias);
+    setMapping($buildIndex);
 
     foreach ($matcher as $file) {
         $skip = false;
         foreach (FILE_EXCLUSIONS as $exclusion) {
             if (preg_match($exclusion, $file) === 1) {
-                echo "\nSkipping $file\n";
+                log("");
+                log("Skipping $file");
                 $skip = true;
                 break;
             }
         }
 
         if (!$skip) {
-            updateIndex($urlPrefix, $lang, $source, $file);
+            updateIndex($buildIndex, $urlPrefix, $lang, $source, $file);
         }
     }
+    setAlias($buildIndex, $indexAlias);
 
-    echo "\nIndex update complete\n";
+    log('---------------------');
+    log("Index update complete");
+    log('---------------------');
 }
 
-function getIndexName($urlPrefix, $lang)
+/**
+ * Get the name of the build specific index name
+ */
+function getBuildIndexName($urlPrefix, $lang)
+{
+    $indexName = getIndexAliasName($urlPrefix, $lang);
+    return $indexName . '-' . time();
+}
+
+/**
+ * Generate the name of the destination index alias.
+ */
+function getIndexAliasName($urlPrefix, $lang)
 {
     $indexName = trim(str_replace('/', '-', $urlPrefix), '-');
     return implode('-', [ES_INDEX_PREFIX, $indexName, $lang]);
 }
 
-function setMapping($urlPrefix, $lang)
+
+function ensureAlias($indexAlias)
 {
-    $indexName = getIndexName($urlPrefix, $lang);
+    log("> Checking index alias {$indexAlias}");
+    $url = implode('/', array(ES_HOST, '_alias', $indexAlias));
+    $response = doRequest($url, CURLOPT_HTTPGET);
+    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+
+    if (!empty($data)) {
+        return;
+    }
+    log("!! No index alias exists. Migrating to index aliases.");
+
+    log('!! Removing old index.');
+    $url = implode('/', array(ES_HOST, $indexAlias));
+    doRequest($url, 'DELETE');
+}
+
+function setAlias($buildIndex, $indexAlias)
+{
+    log("> Getting current alias target");
+    $url = implode('/', array(ES_HOST, '_alias', $indexAlias));
+    $response = doRequest($url, CURLOPT_HTTPGET);
+    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+
+    $actions = [];
+    if (!empty($data)) {
+        $actions[] = [
+            "remove" => [
+                "index" => array_keys($data)[0],
+                "alias" => $indexAlias,
+            ],
+        ];
+    }
+    $actions[] = [
+        "add" => [
+            "index" => $buildIndex,
+            "alias" => $indexAlias,
+        ],
+    ];
+
+    log("> Setting alias {$indexAlias} to point to {$buildIndex}");
+    $url = implode('/', array(ES_HOST, '_alias'));
+    $response = doRequest($url, CURLOPT_POST, ['actions' => $actions]);
+    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+}
+
+function setMapping($indexName)
+{
     $url = implode('/', array(ES_HOST, $indexName));
-    echo "Creating index: {$url}\n";
+    log("> Creating index: {$url}");
     doRequest($url, CURLOPT_PUT);
 
     $mapping = [
@@ -100,13 +166,15 @@ function setMapping($urlPrefix, $lang)
     ];
     $data = json_encode(['mappings' => ['_doc' => $mapping]]);
     $url = implode('/', array(ES_HOST, $indexName, '_mapping', '_doc'));
-    echo "Updating mapping: {$url}\n";
+
+    log("> Updating mapping: {$url}");
     doRequest($url, CURLOPT_PUT, $data);
 }
 
 /**
  * Update the index for a given language
  *
+ * @param string $indexName The index name
  * @param string $urlPrefix The url prefix for the generated files.
  * @param string $lang The language to update, e.g. "en".
  * @param string $source The source path
@@ -114,7 +182,7 @@ function setMapping($urlPrefix, $lang)
  * @param RecursiveDirectoryIterator $file The file to load data from.
  * @return void
  */
-function updateIndex($urlPrefix, $lang, $source, $file)
+function updateIndex($indexName, $urlPrefix, $lang, $source, $file)
 {
     $fileData = readFileData($file);
     $filename = $file->getPathName();
@@ -128,7 +196,6 @@ function updateIndex($urlPrefix, $lang, $source, $file)
     $id = str_replace('/', '-', $id);
     $id = trim($id, '-');
 
-    $indexName = getIndexName($urlPrefix, $lang);
     $url = implode('/', array(ES_HOST, $indexName, '_doc', $id));
 
     $data = json_encode([
@@ -136,10 +203,10 @@ function updateIndex($urlPrefix, $lang, $source, $file)
         'title' => $fileData['title'],
         'url' => $path,
     ]);
-    echo "Sending request:\n\tfile: $file\n\turl: $url\n";
+    log("Sending request:\n\tfile: $file\n\turl: $url");
     doRequest($url, CURLOPT_PUT, $data);
 
-    echo "Sent $file\n";
+    log("Sent $file");
 }
 
 /**
@@ -173,13 +240,18 @@ function readFileData($file)
  * Send a request with curl. If the request fails the process will die.
  *
  * @param string $url
- * @param int $method curl opt value for the method.
+ * @param string|int $method curl opt value for the method.
  * @param string | null $body The body to send if necessary.
  */
 function doRequest($url, $method, $body = null)
 {
     $ch = curl_init($url);
-    curl_setopt($ch, $method, true);
+    if (is_string($method)) {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+    } else {
+        curl_setopt($ch, $method, true);
+    }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
@@ -201,14 +273,24 @@ function doRequest($url, $method, $body = null)
     $metadata = curl_getinfo($ch);
 
     if ($metadata['http_code'] > 400 || !$metadata['http_code']) {
-        echo "[ERROR] Failed to complete request.\n";
+        log("[ERROR] Failed to complete request.");
         var_dump($response);
         exit(2);
     }
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $body = substr($response, $headerSize);
+
     curl_close($ch);
     if ($fh !== null) {
         fclose($fh);
     }
+
+    return $body;
+}
+
+function log($msg)
+{
+    echo "$msg\n";
 }
 
 main();
