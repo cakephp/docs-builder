@@ -28,19 +28,19 @@ function main()
 {
     $options = getopt('', ['host::', 'lang:', 'url-prefix:', 'source:']);
     if (empty($options['lang'])) {
-        log("A language to scan is required.");
+        output("A language to scan is required.");
         exit(1);
     }
     $lang = $options['lang'];
 
     if (empty($options['source'])) {
-        log("A source is required.");
+        output("A source is required.");
         exit(1);
     }
     $source = $options['source'];
 
     if (empty($options['url-prefix'])) {
-        log("A url-prefix is required.");
+        output("A url-prefix is required.");
         exit(1);
     }
     $urlPrefix = $options['url-prefix'];
@@ -65,8 +65,8 @@ function main()
         $skip = false;
         foreach (FILE_EXCLUSIONS as $exclusion) {
             if (preg_match($exclusion, $file) === 1) {
-                log("");
-                log("Skipping $file");
+                output("");
+                output("Skipping $file");
                 $skip = true;
                 break;
             }
@@ -78,9 +78,9 @@ function main()
     }
     setAlias($buildIndex, $indexAlias, $currentTarget);
 
-    log('---------------------');
-    log("Index update complete");
-    log('---------------------');
+    output('---------------------');
+    output("Index update complete");
+    output('---------------------');
 }
 
 /**
@@ -116,8 +116,7 @@ function getCurrentAliasTarget($indexAlias)
         // This will incur a small amount of downtime but it should be rare.
         return null;
     }
-
-    $data = json_decode($response, false, JSON_THROW_ON_ERROR);
+    $data = json_decode($response, true);
     if (!$data) {
         return null;
     }
@@ -134,18 +133,23 @@ function getCurrentAliasTarget($indexAlias)
  */
 function ensureAlias($indexAlias)
 {
-    log("> Checking index alias {$indexAlias}");
+    output("> Checking index alias {$indexAlias}");
     $currentTarget = getCurrentAliasTarget($indexAlias);
     if ($currentTarget) { 
         // If we have an alias with a target we are good to update it.
+        output("> Alias {$indexAlias} is currently pointing at {$currentTarget}.");
         return $currentTarget;
     }
 
-    log("!! No index alias exists. Migrating to index aliases.");
+    output("!! No index alias exists. Migrating to index aliases.");
 
-    log('!! Removing old index.');
+    output('!! Removing old index.');
     $url = implode('/', array(ES_HOST, $indexAlias));
-    doRequest($url, 'DELETE');
+    try {
+        doRequest($url, 'DELETE');
+    } catch (\Exception $e) {
+        output("! Index did not exist. Likely the previous build failed.");
+    }
 
     return null;
 }
@@ -168,9 +172,10 @@ function setAlias($buildIndex, $indexAlias, $currentTarget)
         ],
     ];
 
-    log("> Setting alias {$indexAlias} to point to {$buildIndex}");
+    output("> Setting alias {$indexAlias} to point to {$buildIndex}");
     $url = implode('/', array(ES_HOST, '_alias'));
-    doRequest($url, CURLOPT_POST, ['actions' => $actions]);
+    $body = json_encode(['actions' => $actions]);
+    doRequest($url, CURLOPT_PUT, $body);
 
     if ($currentTarget) {
         removeIndex($currentTarget);
@@ -180,7 +185,7 @@ function setAlias($buildIndex, $indexAlias, $currentTarget)
 function setMapping($indexName)
 {
     $url = implode('/', array(ES_HOST, $indexName));
-    log("> Creating index: {$url}");
+    output("> Creating index: {$url}");
     doRequest($url, CURLOPT_PUT);
 
     $mapping = [
@@ -193,19 +198,18 @@ function setMapping($indexName)
         ],
       ],
     ];
-    $data = json_encode(['mappings' => ['_doc' => $mapping]]);
     $url = implode('/', array(ES_HOST, $indexName, '_mapping', '_doc'));
+    $data = json_encode(['mappings' => ['_doc' => $mapping]]);
 
-    log("> Updating mapping: {$url}");
+    output("> Updating mapping: {$url}");
     doRequest($url, CURLOPT_PUT, $data);
 }
 
 function removeIndex($indexName)
 {
-    log("> Removing index: {$indexName}");
+    output("> Removing index: {$indexName}");
     $url = implode('/', array(ES_HOST, $indexName));
     doRequest($url, 'DELETE');
-
 }
 
 /**
@@ -240,10 +244,10 @@ function updateIndex($indexName, $urlPrefix, $lang, $source, $file)
         'title' => $fileData['title'],
         'url' => $path,
     ]);
-    log("Sending request:\n\tfile: $file\n\turl: $url");
+    output("Sending request:\n\tfile: $file\n\turl: $url");
     doRequest($url, CURLOPT_PUT, $data);
 
-    log("Sent $file");
+    output("Sent $file");
 }
 
 /**
@@ -309,22 +313,20 @@ function doRequest($url, $method, $body = null)
     $response = curl_exec($ch);
     $metadata = curl_getinfo($ch);
 
+    output("Sending {$method} to {$url}");
     if ($metadata['http_code'] > 400 || !$metadata['http_code']) {
         $message = "Failed to complete request to $url\nResponse Body:\n" . $response;
         throw new RuntimeException($message);
     }
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $body = substr($response, $headerSize);
-
     curl_close($ch);
     if ($fh !== null) {
         fclose($fh);
     }
 
-    return $body;
+    return $response;
 }
 
-function log($msg)
+function output($msg)
 {
     echo "$msg\n";
 }
