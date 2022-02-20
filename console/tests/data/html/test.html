@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Test - 1.x</title>
+    </head>
+    <body>
+        <div id="container">
+            <div class="container page-container ">
+                <div class="row">
+                    <div class="col-sm-12 col-md-9 col-md-push-3">
+                        <div class="page-contents col-sm-5">
+                            <h3>Page Contents</h3>
+                            <ul>
+                                <li><a class="reference internal" href="#">Test</a>
+                                    <ul>
+                                        <li>
+                                            <a class="reference internal" href="#level-1-subsection-1-title">Level 1 Subsection 1 Title</a>
+                                            <ul>
+                                                <li><a class="reference internal" href="#level-2-subsection-1-title">Level 2 Subsection 1 Title</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal" href="#level-1-subsection-2-title">Level 1 Subsection 2 Title</a></li>
+                                        <li><a class="reference internal" href="#subsection-with-only-toc-trees">Subsection With Only TOC Trees</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="document-body">
+                            <section id="namespace-Foo\Bar">
+                                <span id="test"></span>
+                                <h1>Test<a class="headerlink" href="#namespace-Foo\Bar" title="Permalink to this headline">¶</a></h1>
+                                <dl class="php class">
+                                    <dt class="sig sig-object php" id="Foo\Bar\Baz">
+                                        <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Foo\Bar\</span></span><span class="sig-name descname"><span class="pre">Baz</span></span><a class="headerlink" href="#Foo\Bar\Baz" title="Permalink to this definition">¶</a>
+                                    </dt>
+                                </dl>
+                                <p>Test root section content.</p>
+                                <!-- new style section markup -->
+                                <section id="level-1-subsection-1-title">
+                                    <h2>Level 1 Subsection 1 Title<a class="headerlink" href="#level-1-subsection-1-title" title="Permalink to this headline">¶</a></h2>
+                                    <dl class="php method">
+                                        <dt class="sig sig-object php" id="Foo\Bar\Baz::method">
+                                            <span class="sig-prename descclassname"><span class="pre">Foo\Bar\Baz::</span></span><span class="sig-name descname"><span class="pre">method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$argument</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Foo\Bar\Baz::method" title="Permalink to this definition">¶</a></dt>
+                                        <dd></dd>
+                                    </dl>
+                                    <ul class="simple">
+                                        <li><p><code class="docutils literal notranslate"><span class="pre">$argument</span></code> - Method argument description.</p></li>
+                                    </ul>
+                                    <p>Level 1 subsection 1 content:</p>
+                                    <div class="highlight-phpinline notranslate">
+                                        <div class="highlight"><pre><span></span><span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Foo\Bar\Baz</span><span class="p">();</span>
+<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$foo</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">&#39;argument&#39;</span><span class="p">);</span></pre>
+                                        </div>
+                                    </div>
+                                    <p>Lorem ipsum, <code class="docutils literal notranslate"><span class="pre">method('argument')</span></code>
+                                        dolor sit amet:</p>
+                                    <div class="highlight-html notranslate">
+                                        <div class="highlight">
+                                            <pre><span></span><span class="p">&lt;</span><span class="nt">method</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;argument&quot;</span> <span class="p">/&gt;</span></pre>
+                                        </div>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="admonition-title">Note</p>
+                                        <p>Admonition content</p>
+                                    </div>
+                                    <section id="level-2-subsection-1-title">
+                                        <h3>Level 2 Subsection 1 Title<a class="headerlink" href="#level-2-subsection-1-title" title="Permalink to this headline">¶</a></h3>
+                                        <p>Level 2 subsection 1 content.</p>
+                                    </section>
+                                </section>
+                                <!-- old style section markup -->
+                                <div id="level-1-subsection-2-title" class="section">
+                                    <h2>Level 1 Subsection 2 Title<a class="headerlink" href="#level-1-subsection-2-title" title="Permalink to this headline">¶</a></h2>
+                                    <p>Level 1 subsection 2 content.</p>
+                                </div>
+                                <div id="subsection-with-only-toc-trees" class="section">
+                                    <h2>Subsection With Only TOC Trees<a class="headerlink" href="#subsection-with-only-toc-trees" title="Permalink to this headline">¶</a></h2>
+                                    <div class="toctree-wrapper compound">
+                                        <ul>
+                                            <li class="toctree-l1"><a class="reference internal" href="test/nested.html">Nested</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-md-pull-9 hidden-xs hidden-sm" lang="en">
+                        <aside class="sidebar">
+                            <div class="mb30 row">
+                                <div id="sidebar-navigation" class="hidden-xs">
+                                    <p class="caption" role="heading"><span class="caption-text">Internal References</span></p>
+                                    <ul class="current">
+                                        <li class="toctree-l1 current"><a class="current reference internal" href="#">Test</a>
+                                            <ul>
+                                                <li class="toctree-l2"><a class="reference internal" href="test/nested.html">Nested</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="toctree-l1"><a class="reference internal" href="more.html">More</a></li>
+                                        <li class="toctree-l1"><a class="reference internal" href="appendices.html">Appendices</a></li>
+                                    </ul>
+                                    <p class="caption" role="heading"><span class="caption-text">External References</span></p>
+                                    <ul>
+                                        <li class="toctree-l1"><a class="reference external" href="https://example.com/foo">Foo</a></li>
+                                        <li class="toctree-l1"><a class="reference external" href="https://example.com/bar">Bar</a></li>
+                                        <li class="toctree-l1"><a class="reference external" href="https://example.com/baz">Baz</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
