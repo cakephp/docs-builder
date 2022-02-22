@@ -59,7 +59,7 @@ function main()
     $indexAlias = getIndexAliasName($urlPrefix, $lang);
 
     $currentTarget = ensureAlias($indexAlias);
-    setMapping($buildIndex);
+    ensureIndex($buildIndex);
 
     foreach ($matcher as $file) {
         $skip = false;
@@ -182,27 +182,21 @@ function setAlias($buildIndex, $indexAlias, $currentTarget)
     }
 }
 
-function setMapping($indexName)
+/**
+ * Ensure the index exists.
+ *
+ * In the future this should also define a mapping.
+ * We used to create mappings but they stopped working
+ * and re-storing the old mappings would make results worse.
+ *
+ * @param string $indexName The index to create
+ * @return void
+ */
+function ensureIndex($indexName)
 {
     $url = implode('/', array(ES_HOST, $indexName));
     output("> Creating index: {$url}");
     doRequest($url, CURLOPT_PUT);
-
-    $mapping = [
-      "properties" => [
-        "contents" => ["type" => "text"],
-        "title" => ["type" => "keyword"],
-        "url" => [
-            "type" => "keyword",
-            "index" => false,
-        ],
-      ],
-    ];
-    $url = implode('/', array(ES_HOST, $indexName, '_mapping', '_doc'));
-    $data = json_encode(['mappings' => ['_doc' => $mapping]]);
-
-    output("> Updating mapping: {$url}");
-    doRequest($url, CURLOPT_PUT, $data);
 }
 
 function removeIndex($indexName)
