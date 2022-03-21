@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  buildimage:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Build buildtime image
+      run: docker build -t cakephp-docs-builder -f Dockerfile .
+
+    - name: Build runtime image
+      run: docker build -t cakephp-docs-builder:runtime -f runtime.Dockerfile .
