@@ -82,12 +82,12 @@ class PopulateIndexCommandTest extends TestCase
     protected function deleteTestIndices(): void
     {
         $indices = [];
-        $currentIndex = $this->manager->getAliasTargetIndex('cake-docs-test-1-en');
+        $currentIndex = $this->manager->getAliasTargetIndex('cake-docs-test-1-1-en');
         if ($currentIndex) {
             $indices[] = $currentIndex;
         }
 
-        $orphanedIndices = $this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en');
+        $orphanedIndices = $this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en');
         foreach (array_merge($indices, $orphanedIndices) as $index) {
             $this->manager->deleteIndex($index);
         }
@@ -114,7 +114,7 @@ class PopulateIndexCommandTest extends TestCase
     {
         $code = $this->command->run([
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
 
@@ -130,7 +130,7 @@ class PopulateIndexCommandTest extends TestCase
     {
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
 
@@ -163,7 +163,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'non-existent',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -171,19 +171,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>The source path `.+?/non-existent` could not be found\.\</error\>@',
             ],
@@ -199,7 +199,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -207,19 +207,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>The TOC file `.+?/tests/docs/contents\.html` could not be found.\</error\>@',
             ],
@@ -235,7 +235,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -243,19 +243,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Loading `.+?/tests/docs/contents\.html` failed: Document is empty\</error\>@',
                 '@\<error\>#0@',
@@ -276,7 +276,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -284,19 +284,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No internal references found in `.+?/tests/docs/contents\.html`\.\</error\>@',
             ],
@@ -316,7 +316,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -324,19 +324,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>The internal reference `.+?/tests/docs/non-existent\.html` ' .
                     'could not be resolved\.\</error\>@',
@@ -359,7 +359,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -367,19 +367,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>The internal reference `\.\./base-path-incompatible\.html` ' .
                     'points to outside the content base path `.+?/tests/docs`\.\</error\>@',
@@ -401,7 +401,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -409,19 +409,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No internal references found in `.+?/tests/docs/contents\.html`\.\</error\>@',
             ],
@@ -437,7 +437,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -445,19 +445,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Loading `.+?/tests/docs/test\.html` failed: Document is empty\</error\>@',
                 '@\<error\>#0@',
@@ -478,7 +478,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -486,25 +486,25 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
             ],
             $this->err->messages()
@@ -523,7 +523,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -531,19 +531,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No sidebar navigation found in `.+?/tests/docs/test.html`\</error\>@',
                 '@\<error\>#0@',
@@ -564,7 +564,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -572,19 +572,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No active TOC hierarchy found in `.+?/tests/docs/test\.html`\</error\>@',
                 '@\<error\>#0@',
@@ -601,7 +601,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -609,19 +609,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No document body found in `.+?/tests/docs/test\.html`\</error\>@',
                 '@\<error\>#0@',
@@ -638,7 +638,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -646,19 +646,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>No root section found in `.+?/tests/docs/test\.html`\</error\>@',
                 '@\<error\>#0@',
@@ -679,7 +679,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -687,19 +687,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Missing section anchor in `.+?/tests/docs/test\.html`\</error\>@',
                 '@\<error\>#0@',
@@ -716,7 +716,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -724,19 +724,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Missing title node in `#missing-title-node` section\.\</error\>@',
                 '@\<error\>#0@',
@@ -757,7 +757,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -765,19 +765,19 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Missing section title in `#missing-section-title` section\.\</error\>@',
                 '@\<error\>#0@',
@@ -791,7 +791,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://invalid',
         ], $this->io);
@@ -799,7 +799,7 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertSame(
             [
-                'Deleting orphaned indices for index alias `cake-docs-test-1-en`.',
+                'Deleting orphaned indices for index alias `cake-docs-test-1-1-en`.',
             ],
             $this->out->messages()
         );
@@ -838,7 +838,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -846,20 +846,20 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                 'the previous build might have failed: \[404\] no such index\</warning\>@',
-                '@\<error\>The `cake-docs-test-1-en-\d+` ' .
+                '@\<error\>The `cake-docs-test-1-1-en-\d+` ' .
                     'index could not be created: \[400\] foo bar baz\</error\>@',
             ],
             $this->err->messages()
@@ -900,7 +900,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -908,23 +908,23 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Could not store the document for ' .
-                    '`/1/en/test\.html#namespace-Foo\\\\Bar`: \[400\] foo bar baz\</error\>@',
+                    '`/1.1/en/test\.html#namespace-Foo\\\\Bar`: \[400\] foo bar baz\</error\>@',
             ],
             $this->err->messages()
         );
@@ -964,7 +964,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -972,29 +972,29 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<error\>Could not store the document for ' .
                     '`https://example.com/foo`: \[400\] foo bar baz\</error\>@',
@@ -1031,7 +1031,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1039,35 +1039,35 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
-                '@\<error\>The alias `cake-docs-test-1-en` could not be set to point to ' .
-                    '`cake-docs-test-1-en-\d+`: \[400\] foo bar baz\</error\>@',
+                '@\<error\>The alias `cake-docs-test-1-1-en` could not be set to point to ' .
+                    '`cake-docs-test-1-1-en-\d+`: \[400\] foo bar baz\</error\>@',
             ],
             $this->err->messages()
         );
@@ -1078,11 +1078,11 @@ class PopulateIndexCommandTest extends TestCase
         $this->filesystem->mirror(TESTS . 'data/html', TMP . 'tests/docs', null, ['override' => true]);
 
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12345',
+            'cake-docs-test-1-1-en-12345',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
-        $this->manager->setAlias('cake-docs-test-1-en-12345', 'cake-docs-test-1-en');
+        $this->manager->setAlias('cake-docs-test-1-1-en-12345', 'cake-docs-test-1-1-en');
 
         $manager = $this
             ->getMockBuilder(Manager::class)
@@ -1094,7 +1094,7 @@ class PopulateIndexCommandTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('deleteIndex')
             ->willReturnCallback(function (string $index) {
-                if ($index === 'cake-docs-test-1-en-12345') {
+                if ($index === 'cake-docs-test-1-1-en-12345') {
                     throw new ErrorResponseException('[400] foo bar baz', 400);
                 }
             });
@@ -1112,7 +1112,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1120,33 +1120,33 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
-                '@Alias `cake-docs-test-1-en` is currently pointing at `cake-docs-test-1-en-12345`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
+                '@Alias `cake-docs-test-1-1-en` is currently pointing at `cake-docs-test-1-1-en-12345`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
-                '@Deleting old build index `cake-docs-test-1-en-12345`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
+                '@Deleting old build index `cake-docs-test-1-1-en-12345`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en-12345` ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en-12345` ' .
                     'could not be deleted: \[400\] foo bar baz\</warning\>@',
             ],
             $this->err->messages()
@@ -1158,16 +1158,16 @@ class PopulateIndexCommandTest extends TestCase
         $this->filesystem->mirror(TESTS . 'data/html', TMP . 'tests/docs', null, ['override' => true]);
 
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12344',
+            'cake-docs-test-1-1-en-12344',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12345',
+            'cake-docs-test-1-1-en-12345',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
-        $this->manager->setAlias('cake-docs-test-1-en-12345', 'cake-docs-test-1-en');
+        $this->manager->setAlias('cake-docs-test-1-1-en-12345', 'cake-docs-test-1-1-en');
 
         $manager = $this
             ->getMockBuilder(Manager::class)
@@ -1179,7 +1179,7 @@ class PopulateIndexCommandTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('deleteIndex')
             ->willReturnCallback(function (string $index) {
-                if ($index === 'cake-docs-test-1-en-12344') {
+                if ($index === 'cake-docs-test-1-1-en-12344') {
                     throw new ErrorResponseException('[400] foo bar baz', 400);
                 }
             });
@@ -1197,7 +1197,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1205,33 +1205,33 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
-                '@Deleting orphaned index `cake-docs-test-1-en-12344`\.@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
-                '@Alias `cake-docs-test-1-en` is currently pointing at `cake-docs-test-1-en-12345`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
+                '@Deleting orphaned index `cake-docs-test-1-1-en-12344`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
+                '@Alias `cake-docs-test-1-1-en` is currently pointing at `cake-docs-test-1-1-en-12345`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
-                '@Deleting old build index `cake-docs-test-1-en-12345`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
+                '@Deleting old build index `cake-docs-test-1-1-en-12345`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en-12344` ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en-12344` ' .
                     'could not be deleted: \[400\] foo bar baz\</warning\>@',
             ],
             $this->err->messages()
@@ -1243,26 +1243,26 @@ class PopulateIndexCommandTest extends TestCase
         $this->filesystem->mirror(TESTS . 'data/html', TMP . 'tests/docs', null, ['override' => true]);
 
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12343',
+            'cake-docs-test-1-1-en-12343',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12344',
+            'cake-docs-test-1-1-en-12344',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12345',
+            'cake-docs-test-1-1-en-12345',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
-        $this->manager->setAlias('cake-docs-test-1-en-12345', 'cake-docs-test-1-en');
+        $this->manager->setAlias('cake-docs-test-1-1-en-12345', 'cake-docs-test-1-1-en');
 
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1270,27 +1270,27 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
-                '@Deleting orphaned index `cake-docs-test-1-en-12343`\.@',
-                '@Deleting orphaned index `cake-docs-test-1-en-12344`\.@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
-                '@Alias `cake-docs-test-1-en` is currently pointing at `cake-docs-test-1-en-12345`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
+                '@Deleting orphaned index `cake-docs-test-1-1-en-12343`\.@',
+                '@Deleting orphaned index `cake-docs-test-1-1-en-12344`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
+                '@Alias `cake-docs-test-1-1-en` is currently pointing at `cake-docs-test-1-1-en-12345`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
-                '@Deleting old build index `cake-docs-test-1-en-12345`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
+                '@Deleting old build index `cake-docs-test-1-1-en-12345`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
@@ -1298,18 +1298,18 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertEmpty($this->err->messages());
 
         $this->assertRegExp(
-            '/^cake-docs-test-1-en-\d+$/',
-            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en')
+            '/^cake-docs-test-1-1-en-\d+$/',
+            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en')
         );
-        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en'));
+        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en'));
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'success.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
@@ -1336,7 +1336,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1344,17 +1344,17 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
                 '@\<info\>Skipping internal reference ' .
                     '`404\.html` because of exclusion rule `/\^404\\\.html\$/`\.\</info\>@',
                 '@\<info\>Skipping internal reference ' .
@@ -1376,32 +1376,32 @@ class PopulateIndexCommandTest extends TestCase
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
             ],
             $this->err->messages()
         );
 
         $this->assertRegExp(
-            '/^cake-docs-test-1-en-\d+$/',
-            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en')
+            '/^cake-docs-test-1-1-en-\d+$/',
+            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en')
         );
-        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en'));
+        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en'));
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'skip-excluded-files.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
@@ -1414,7 +1414,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1422,29 +1422,29 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                 'the previous build might have failed: \[404\] no such index\</warning\>@',
                 '@\<warning\>No sections found in `.+?/tests/docs/test\.html`\. ' .
                 'This might be a page that contains only a TOC tree\.\</warning\>@',
@@ -1453,18 +1453,18 @@ class PopulateIndexCommandTest extends TestCase
         );
 
         $this->assertRegExp(
-            '/^cake-docs-test-1-en-\d+$/',
-            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en')
+            '/^cake-docs-test-1-1-en-\d+$/',
+            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en')
         );
-        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en'));
+        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en'));
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'no-section-content.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
@@ -1474,7 +1474,7 @@ class PopulateIndexCommandTest extends TestCase
         $this->filesystem->mirror(TESTS . 'data/html', TMP . 'tests/docs', null, ['override' => true]);
 
         $this->manager->createIndex(
-            'cake-docs-test-1-en',
+            'cake-docs-test-1-1-en',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
@@ -1482,7 +1482,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1490,26 +1490,26 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
@@ -1517,17 +1517,17 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertEmpty($this->err->messages());
 
         $this->assertRegExp(
-            '/^cake-docs-test-1-en-\d+$/',
-            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en')
+            '/^cake-docs-test-1-1-en-\d+$/',
+            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en')
         );
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'success.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
@@ -1537,16 +1537,16 @@ class PopulateIndexCommandTest extends TestCase
         $this->filesystem->mirror(TESTS . 'data/html', TMP . 'tests/docs', null, ['override' => true]);
 
         $this->manager->createIndex(
-            'cake-docs-test-1-en-12345',
+            'cake-docs-test-1-1-en-12345',
             ['number_of_shards' => 1],
             ['test' => ['type' => 'keyword']]
         );
-        $this->manager->setAlias('cake-docs-test-1-en-12345', 'cake-docs-test-1-en');
+        $this->manager->setAlias('cake-docs-test-1-1-en-12345', 'cake-docs-test-1-1-en');
 
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1554,44 +1554,44 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
-                '@Alias `cake-docs-test-1-en` is currently pointing at `cake-docs-test-1-en-12345`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
+                '@Alias `cake-docs-test-1-1-en` is currently pointing at `cake-docs-test-1-1-en-12345`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
-                '@Deleting old build index `cake-docs-test-1-en-12345`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
+                '@Deleting old build index `cake-docs-test-1-1-en-12345`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertEmpty($this->err->messages());
 
-        $result = (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en');
-        $this->assertNotSame('cake-docs-test-1-en-12345', $result);
-        $this->assertRegExp('/^cake-docs-test-1-en-\d+$/', $result);
-        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en'));
+        $result = (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en');
+        $this->assertNotSame('cake-docs-test-1-1-en-12345', $result);
+        $this->assertRegExp('/^cake-docs-test-1-1-en-\d+$/', $result);
+        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en'));
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'success.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
@@ -1603,7 +1603,7 @@ class PopulateIndexCommandTest extends TestCase
         $code = $this->command->run([
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
-            '--url-prefix', '/1',
+            '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
         ], $this->io);
@@ -1611,51 +1611,51 @@ class PopulateIndexCommandTest extends TestCase
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
         $this->assertMessagesRegExp(
             [
-                '@Deleting orphaned indices for index alias `cake-docs-test-1-en`\.@',
+                '@Deleting orphaned indices for index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No orphaned indices found\.\</info\>@',
-                '@Checking index alias `cake-docs-test-1-en`\.@',
+                '@Checking index alias `cake-docs-test-1-1-en`\.@',
                 '@\<info\>No index alias exists. Migrating to index aliases\.\</info\>@',
-                '@Deleting old, non-aliased index `cake-docs-test-1-en`\.@',
-                '@Creating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Populating build index `cake-docs-test-1-en-\d+`\.@',
-                '@Storing document for `/1/en/test\.html#namespace-Foo\\\\Bar`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-2-subsection-1-title`\.@',
-                '@Storing document for `/1/en/test\.html#level-1-subsection-2-title`\.@',
-                '@Storing document for `/1/en/test/nested\.html#nested`\.@',
-                '@Storing document for `/1/en/test/nested\.html#level-1-subsection-1-title`\.@',
-                '@Storing document for `/1/en/more\.html#more`\.@',
-                '@Storing document for `/1/en/appendices\.html#appendices`\.@',
-                '@Storing document for `/1/en/appendices/low-priority\.html#low-priority`\.@',
+                '@Deleting old, non-aliased index `cake-docs-test-1-1-en`\.@',
+                '@Creating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Populating build index `cake-docs-test-1-1-en-\d+`\.@',
+                '@Storing document for `/1.1/en/test\.html#namespace-Foo\\\\Bar`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-2-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/test\.html#level-1-subsection-2-title`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#nested`\.@',
+                '@Storing document for `/1.1/en/test/nested\.html#level-1-subsection-1-title`\.@',
+                '@Storing document for `/1.1/en/more\.html#more`\.@',
+                '@Storing document for `/1.1/en/appendices\.html#appendices`\.@',
+                '@Storing document for `/1.1/en/appendices/low-priority\.html#low-priority`\.@',
                 '@Storing document for `https://example\.com/foo`\.@',
                 '@Storing document for `https://example\.com/bar`\.@',
                 '@Storing document for `https://example\.com/baz`\.@',
-                '@Setting alias `cake-docs-test-1-en` to point to `cake-docs-test-1-en-\d+`\.@',
+                '@Setting alias `cake-docs-test-1-1-en` to point to `cake-docs-test-1-1-en-\d+`\.@',
                 '@\<success\>Index update complete\.\</success\>@',
             ],
             $this->out->messages()
         );
         $this->assertMessagesRegExp(
             [
-                '@\<warning\>The index `cake-docs-test-1-en` could not be deleted, ' .
+                '@\<warning\>The index `cake-docs-test-1-1-en` could not be deleted, ' .
                     'the previous build might have failed: \[404\] no such index\</warning\>@',
             ],
             $this->err->messages()
         );
 
         $this->assertRegExp(
-            '/^cake-docs-test-1-en-\d+$/',
-            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-en')
+            '/^cake-docs-test-1-1-en-\d+$/',
+            (string)$this->manager->getAliasTargetIndex('cake-docs-test-1-1-en')
         );
-        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-en'));
+        $this->assertEmpty($this->manager->getOrphanedIndicesForAlias('cake-docs-test-1-1-en'));
 
-        $this->manager->refreshIndex('cake-docs-test-1-en');
+        $this->manager->refreshIndex('cake-docs-test-1-1-en');
         $expected = require $this->comparisons . 'success.php';
         $documents = array_map(
             function (Document $document) {
                 return $document->toArray();
             },
-            $this->manager->getAllDocuments('cake-docs-test-1-en')
+            $this->manager->getAllDocuments('cake-docs-test-1-1-en')
         );
         $this->assertSame($expected, $documents);
     }
