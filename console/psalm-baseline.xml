@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.x-dev@">
+  <file src="src/Docs/Parser/ContentParser.php">
+    <RedundantCondition occurrences="2">
+      <code>!$node-&gt;attributes</code>
+      <code>!$node-&gt;attributes</code>
+    </RedundantCondition>
+  </file>
+</files>

@@ -2,7 +2,9 @@
 FROM nginx:1.15-alpine
 
 # We also need PHP to update elastic search.
-RUN apk add --update bash php php-curl php-json
+RUN apk add --update bash curl composer \
+    php php-curl php-dom php-intl php-json php-mbstring php-openssl \
+    php-phar php-simplexml php-tokenizer php-xml php-xmlwriter
 
 WORKDIR /data
 
@@ -14,3 +16,4 @@ COPY app.json /data/app.json
 COPY run.sh /data/run.sh
 COPY update-es.sh /data/update-es.sh
 COPY scripts/populate_search_index.php /data/populate_search_index.php
+COPY console /data/console

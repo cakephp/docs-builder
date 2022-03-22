@@ -2,7 +2,7 @@
 # Inspired by the Makefile used by bazaar.
 # https://bazaar.launchpad.net/~bzr-pqm/bzr/2.3/
 
-PYTHON = python
+PYTHON = python3
 ES_HOST =
 
 .PHONY: all clean html website website-dirs rebuild-index build-html
@@ -24,7 +24,7 @@ PYTHON = python
 LANGS = en
 
 # Get path to theme directory to build static assets.
-THEME_DIR = $(shell python -c 'import os, cakephpsphinx; print(os.path.abspath(os.path.dirname(cakephpsphinx.__file__)))')
+THEME_DIR = $(shell python3 -c 'import os, cakephpsphinx; print(os.path.abspath(os.path.dirname(cakephpsphinx.__file__)))')
 
 
 # Copy-paste the English Makefile everywhere it's needed (if non existing).
@@ -45,8 +45,8 @@ rebuild-index: $(foreach lang, $(LANGS), rebuild-index-$(lang))
 # Make the HTML version of the documentation with correctly nested language folders.
 html-%:
 	make build-html LANG=$* SOURCE=$(SOURCE) DEST=$(DEST)
-	make $(DEST)/html/$*/_static/css/app.css SOURCE=$(SOURCE)
-	make $(DEST)/html/$*/_static/app.js SOURCE=$(SOURCE)
+	make $(DEST)/html/$*/_static/css/dist.css SOURCE=$(SOURCE)
+	make $(DEST)/html/$*/_static/js/dist.js SOURCE=$(SOURCE)
 
 build-html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(SOURCE)/$(LANG) $(DEST)/html/$(LANG)
@@ -57,11 +57,12 @@ server-%:
 	cd build/html/$* && python -m SimpleHTTPServer
 
 populate-index-%:
-	php scripts/populate_search_index.php --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
+	php console/bin/console.php index:populate \
+	  --source="$(SOURCE)/docs/$*" --lang="$*" --host="$(ES_HOST)" --url-prefix="$(SEARCH_URL_PREFIX)"
 
 rebuild-index-%:
 	curl -XDELETE $(ES_HOST)/documentation/$(SEARCH_INDEX_NAME)-$*
-	php scripts/populate_search_index.php "$(SOURCE)/docs/$*" "$(SEARCH_INDEX_NAME)-$*" "$(SEARCH_URL_PREFIX)/$*" $(ES_HOST)
+	make populate-index-$*
 
 website-dirs:
 	# Make the directory if its not there already.
@@ -76,10 +77,13 @@ clean-website:
 	rm -rf $(DEST)/*
 
 $(DEST)/html/%/_static:
-	mkdir -p build/html/$*/_static
+	mkdir -p $(DEST)/html/$*/_static
 
 $(DEST)/html/%/_static/css: $(DEST)/html/%/_static
-	mkdir -p build/html/$*/_static/css
+	mkdir -p $(DEST)/html/$*/_static/css
+
+$(DEST)/html/%/_static/js: $(DEST)/html/%/_static
+	mkdir -p $(DEST)/html/$*/_static/js
 
 CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
   $(THEME_DIR)/themes/cakephp/static/css/bootstrap.min.css \
@@ -89,16 +93,22 @@ CSS_FILES = $(THEME_DIR)/themes/cakephp/static/css/fonts.css \
   $(THEME_DIR)/themes/cakephp/static/css/pygments.css \
   $(THEME_DIR)/themes/cakephp/static/css/responsive.css
 
-$(DEST)/html/%/_static/css/app.css: $(DEST)/html/%/_static/css $(CSS_FILES)
-	# echo all dependencies ($$^) into the output ($$@)
+$(DEST)/html/%/_static/css/dist.css: $(DEST)/html/%/_static/css $(CSS_FILES)
+	# build css dependencies for distribution into '$@'
 	cat $(CSS_FILES) > $@
 
-JS_FILES = $(THEME_DIR)/themes/cakephp/static/jquery.js \
-  $(THEME_DIR)/themes/cakephp/static/vendor.js \
-  $(THEME_DIR)/themes/cakephp/static/app.js \
-  $(THEME_DIR)/themes/cakephp/static/search.js \
-  $(THEME_DIR)/themes/cakephp/static/typeahead.js
+JS_FILES = $(THEME_DIR)/themes/cakephp/static/js/vendor.js \
+  $(THEME_DIR)/themes/cakephp/static/js/app.js \
+  $(THEME_DIR)/themes/cakephp/static/js/messages.js \
+  $(THEME_DIR)/themes/cakephp/static/js/common.js \
+  $(THEME_DIR)/themes/cakephp/static/js/responsive-menus.js \
+  $(THEME_DIR)/themes/cakephp/static/js/mega-menu.js \
+  $(THEME_DIR)/themes/cakephp/static/js/header.js \
+  $(THEME_DIR)/themes/cakephp/static/js/search.js \
+  $(THEME_DIR)/themes/cakephp/static/js/search.messages.*.js \
+  $(THEME_DIR)/themes/cakephp/static/js/inline-search.js \
+  $(THEME_DIR)/themes/cakephp/static/js/standalone-search.js
 
-$(DEST)/html/%/_static/app.js: $(DEST)/html/%/_static $(JS_FILES)
-	# echo all dependencies ($JS_FILES) into the output ($$@)
+$(DEST)/html/%/_static/js/dist.js: $(DEST)/html/%/_static/js $(JS_FILES)
+	# build js dependencies for distribution into '$@'
 	cat $(JS_FILES) > $@

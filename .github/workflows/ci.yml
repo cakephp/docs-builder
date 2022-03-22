@@ -9,14 +9,161 @@ on:
       - '*'
 
 jobs:
-  buildimage:
-    runs-on: ubuntu-20.04
+  builds:
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: tests
     strategy:
       fail-fast: false
+      matrix:
+        repository: [
+          'cakephp/authentication',
+          'cakephp/authorization',
+          'cakephp/bake',
+          'cakephp/chronos',
+          'cakephp/debug_kit',
+          'cakephp/docs',
+          'cakephp/elastic-search',
+          'cakephp/migrations',
+          'cakephp/phinx',
+          'cakephp/queue'
+        ]
+
+    name: Build ${{ matrix.repository }}
+
+    services:
+      elasticsearch:
+        image: elasticsearch:6.8.23
+        ports:
+          - 9200:9200
+        env:
+          discovery.type: single-node
+          ES_JAVA_OPTS: -Xms500m -Xmx500m
+        options: >-
+          --health-cmd "curl http://127.0.0.1:9200/_cluster/health"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
-    - name: Build buildtime image
-      run: docker build -t cakephp-docs-builder -f Dockerfile .
+      - uses: actions/checkout@v2
 
-    - name: Build runtime image
-      run: docker build -t cakephp-docs-builder:runtime -f runtime.Dockerfile .
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ matrix.repository }}
+          path: tests/${{ matrix.repository }}
+
+      - name: Prepare environment
+        run: |
+          if [[ '${{ matrix.repository }}' == 'cakephp/docs' ]]; then
+            cp -r ${{ matrix.repository }}/. docs
+          else
+            cp -r ${{ matrix.repository }}/docs/. docs
+          fi
+
+      - name: Build Base Images
+        working-directory: .
+        run: |
+          docker build \
+            --rm -f Dockerfile -t docs-build-test/builder --no-cache .
+          docker build \
+            --rm -f runtime.Dockerfile -t docs-build-test/runtime --no-cache .
+
+      - name: Build Docs & Populate Index
+        run: |
+          docker build \
+            --rm -f docs-build-test.Dockerfile -t ci-docs-builder --build-arg REPOSITORY=${{ matrix.repository }} \
+            --network host --no-cache .
+
+  tests:
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: console
+
+    name: Console tests
+
+    services:
+      elasticsearch:
+        image: elasticsearch:6.8.23
+        ports:
+          - 9200:9200
+        env:
+          discovery.type: single-node
+          ES_JAVA_OPTS: -Xms500m -Xmx500m
+        options: >-
+          --health-cmd "curl http://127.0.0.1:9200/_cluster/health"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          extensions: mbstring, intl
+          coverage: pcov
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Get date part for cache key
+        id: key-date
+        run: echo "::set-output name=date::$(date +'%Y-%m')"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('console/composer.json') }}
+
+      - name: Composer install
+        working-directory: console
+        run: composer install --optimize-autoloader
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Run PHPUnit
+        run: composer test-coverage
+
+      - name: Code Coverage Report
+        if: success()
+        uses: codecov/codecov-action@v1
+
+  cs-stan:
+    name: Coding Standards & Static Analysis
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: console
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl
+          tools: cs2pr
+
+      - name: Composer Install
+        run: composer stan-setup
+
+      - name: Run phpcs
+        run: composer cs-check -- --parallel=1 --report=checkstyle | cs2pr
+
+      - name: Run psalm
+        run: composer psalm -- --output-format=github
+
+      - name: Run phpstan (src)
+        run: composer phpstan-src -- --error-format=github
+
+      - name: Run phpstan (tests)
+        run: composer phpstan-tests -- --error-format=github
