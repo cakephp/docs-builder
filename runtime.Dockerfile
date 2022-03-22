@@ -8,6 +8,9 @@ RUN apk add --update bash curl composer \
 
 WORKDIR /data
 
+# Used to index HTML build
+ENV SEARCH_SOURCE="/data/docs/build/html"
+
 # Copy the run script (for backwards compat with existing plugin sites),
 # a script to update the site langauages based on environment variables
 # and a search index build tool to slice the source docs up and insert
