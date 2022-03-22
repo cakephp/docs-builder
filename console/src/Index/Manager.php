@@ -57,7 +57,7 @@ class Manager
      */
     public function getIndexAliasName(string $indexPrefix, string $urlPrefix, string $lang): string
     {
-        $indexName = trim(Text::slug($urlPrefix), '-');
+        $indexName = trim(Text::slug($urlPrefix, ''), '-');
 
         return implode('-', [$indexPrefix, $indexName, $lang]);
     }
