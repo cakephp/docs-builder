@@ -119,7 +119,7 @@ registry:
 
 ```bash
 export CR_PAT=<token>
-echo $CR_PAT | docker logic ghcr.io -u USERNAME --password-stdin
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 ```
 
 Now build images and push them:
