@@ -113,9 +113,22 @@ be updated separately:
 When you make changes to either cakephp/cakephpsphinx or this repository you
 need to publish a new docker image and update the cakephp server.
 
-1. `docker build -t markstory/cakephp-docs-builder .`
-2. `docker push markstory/cakephp-docs-builder`
-3. `docker build -t markstory/cakephp-docs-builder:runtime -f runtime.Dockerfile .`
-2. `docker push markstory/cakephp-docs-builder:runtime`
+First get a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+that has `write:packages` and `read:packages` scopes. The login to the container
+registry:
+
+```bash
+export CR_PAT=<token>
+echo $CR_PAT | docker logic ghcr.io -u USERNAME --password-stdin
+```
+
+Now build images and push them:
+
+```bash
+docker build -t ghcr.io/cakephp/docs-builder .
+docker push ghcr.io/cakephp/docs-builder
+docker build -t ghcr.io/cakephp/docs-builder:runtime -f runtime.Dockerfile .
+docker push ghcr.io/cakephp/docs-builder:runtime
+```
 
 Plugins will use the new base image when they next have their docs deployed.
