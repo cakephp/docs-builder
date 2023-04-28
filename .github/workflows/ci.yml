@@ -27,7 +27,7 @@ jobs:
           'cakephp/elastic-search',
           'cakephp/migrations',
           'cakephp/phinx',
-          'cakephp/queue'
+          'cakephp/queue',
         ]
 
     name: Build ${{ matrix.repository }}
