@@ -197,6 +197,26 @@ function ensureIndex($indexName)
     $url = implode('/', array(ES_HOST, $indexName));
     output("> Creating index: {$url}");
     doRequest($url, CURLOPT_PUT);
+
+    $url = implode('/', array(ES_HOST, $indexName, '_mapping'));
+    output("> Creating mapping: {$url}");
+    $bodyData = [
+        'properties' => [
+            'contents' => [
+                'type' => 'text',
+                'fielddata' => true,
+            ],
+            'title' => [
+                'type' => 'text',
+            ],
+            'url' => [
+                'type' => 'text',
+                'fielddata' => true,
+            ],
+        ],
+    ];
+    $body = json_encode($bodyData);
+    doRequest($url, CURLOPT_PUT, $body);
 }
 
 function removeIndex($indexName)
