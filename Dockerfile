@@ -1,7 +1,7 @@
 # This image provides the ability to build docs for CakePHP plugins
 # Plugins should use a multi-stage Dockerfile so that they only deploy
 # nginx without python and other build tooling.
-FROM python:3.8-alpine
+FROM python:3.11-alpine
 
 LABEL Description="Create an image to deploy the CakePHP plugin docs"
 
