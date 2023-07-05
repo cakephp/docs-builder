@@ -1,4 +1,0 @@
-parameters:
-    bootstrapFiles:
-        - tests/phpstan.php
-        - tests/bootstrap.php

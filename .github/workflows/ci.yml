@@ -162,8 +162,5 @@ jobs:
       - name: Run psalm
         run: composer psalm -- --output-format=github
 
-      - name: Run phpstan (src)
-        run: composer phpstan-src -- --error-format=github
-
-      - name: Run phpstan (tests)
-        run: composer phpstan-tests -- --error-format=github
+      - name: Run phpstan
+        run: composer phpstan -- --error-format=github

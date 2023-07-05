@@ -42,18 +42,14 @@
         "cs-fix": "phpcbf --parallel=16 -p ./src ./tests",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-clover=coverage.xml",
-        "stan-setup": "cp composer.json composer.backup && composer require --dev \"phpstan/phpstan:^1.0\" \"psalm/phar:^4.0\" && mv composer.backup composer.json",
+        "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.10 psalm/phar:^5.13 && mv composer.backup composer.json",
         "stan": [
-            "@phpstan-src",
-            "@phpstan-tests",
+            "@phpstan",
             "@psalm"
         ],
-        "phpstan": [
-            "@phpstan-src",
-            "@phpstan-tests"
-        ],
-        "phpstan-src": "php ./vendor/phpstan/phpstan/phpstan.phar analyse -l 8 -c ./phpstan.src.neon ./src",
-        "phpstan-tests": "php ./vendor/phpstan/phpstan/phpstan.phar analyse -l 8 -c ./phpstan.tests.neon ./tests",
+        "phpstan": "php ./vendor/phpstan/phpstan/phpstan.phar analyse",
+        "stan-baseline": "php ./vendor/phpstan/phpstan/phpstan.phar --generate-baseline",
+        "psalm-baseline": "php ./vendor/psalm/phar/psalm.phar --set-baseline=psalm-baseline.xml",
         "psalm": "php ./vendor/psalm/phar/psalm.phar"
     }
 }
