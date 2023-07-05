@@ -1,5 +1,5 @@
 # Build a small nginx container with just the static site in it.
-FROM nginx:1.15-alpine
+FROM nginx:1.25-alpine
 
 # We also need PHP to update elastic search.
 RUN apk add --update bash curl composer \

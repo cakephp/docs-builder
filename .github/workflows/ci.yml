@@ -77,7 +77,7 @@ jobs:
             --network host --no-cache .
 
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: console
@@ -138,7 +138,7 @@ jobs:
 
   cs-stan:
     name: Coding Standards & Static Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: console
@@ -162,8 +162,5 @@ jobs:
       - name: Run psalm
         run: composer psalm -- --output-format=github
 
-      - name: Run phpstan (src)
-        run: composer phpstan-src -- --error-format=github
-
-      - name: Run phpstan (tests)
-        run: composer phpstan-tests -- --error-format=github
+      - name: Run phpstan
+        run: composer phpstan -- --error-format=github
