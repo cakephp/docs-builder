@@ -77,7 +77,7 @@ jobs:
             --network host --no-cache .
 
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: console
@@ -138,7 +138,7 @@ jobs:
 
   cs-stan:
     name: Coding Standards & Static Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: console
