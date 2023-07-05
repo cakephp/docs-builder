@@ -199,7 +199,7 @@ class PopulateIndexCommand extends BaseCommand
         ];
         $properties = [
             'type' => ['type' => 'keyword', 'index' => false],
-            'priority' => ['type' => 'keyword', 'fielddata' => true],
+            'priority' => ['type' => 'keyword'],
             'url' => ['type' => 'keyword', 'index' => false],
             'page_url' => ['type' => 'keyword'],
             'level' => ['type' => 'short'],
