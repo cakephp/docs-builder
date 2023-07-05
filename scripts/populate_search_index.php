@@ -204,14 +204,12 @@ function ensureIndex($indexName)
         'properties' => [
             'contents' => [
                 'type' => 'text',
-                'fielddata' => true,
             ],
             'title' => [
                 'type' => 'text',
             ],
             'url' => [
                 'type' => 'text',
-                'fielddata' => true,
             ],
         ],
     ];
