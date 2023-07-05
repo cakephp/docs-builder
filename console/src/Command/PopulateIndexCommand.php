@@ -201,7 +201,7 @@ class PopulateIndexCommand extends BaseCommand
             'type' => ['type' => 'keyword', 'index' => false],
             'priority' => ['type' => 'keyword', 'fielddata' => true],
             'url' => ['type' => 'keyword', 'index' => false],
-            'page_url' => ['type' => 'keyword', 'fielddata' => true],
+            'page_url' => ['type' => 'keyword'],
             'level' => ['type' => 'short'],
             'max_level' => ['type' => 'short'],
             'position' => ['type' => 'short'],
