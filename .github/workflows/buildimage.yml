@@ -33,7 +33,7 @@ jobs:
           docker build -t ghcr.io/cakephp/docs-builder .
           docker push ghcr.io/cakephp/docs-builder
 
-      - name: Build and push rungim image
+      - name: Build and push runtime image
         run: |
           docker build -t ghcr.io/cakephp/docs-builder:runtime -f runtime.Dockerfile .
           docker push ghcr.io/cakephp/docs-builder:runtime
