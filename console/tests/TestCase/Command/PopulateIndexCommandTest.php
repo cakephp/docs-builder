@@ -116,6 +116,7 @@ class PopulateIndexCommandTest extends TestCase
             '--lang', 'en',
             '--url-prefix', '/1.1',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -132,6 +133,7 @@ class PopulateIndexCommandTest extends TestCase
             '--source', TMP . 'tests/docs',
             '--url-prefix', '/1.1',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -148,6 +150,7 @@ class PopulateIndexCommandTest extends TestCase
             '--source', TMP . 'tests/docs',
             '--lang', 'en',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -166,6 +169,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -202,6 +206,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -238,6 +243,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -279,6 +285,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -319,6 +326,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -362,6 +370,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -404,6 +413,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -440,6 +450,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -481,6 +492,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -526,6 +538,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -567,6 +580,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -604,6 +618,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -641,6 +656,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -682,6 +698,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -719,6 +736,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -760,6 +778,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -794,6 +813,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://invalid',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -841,6 +861,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -903,6 +924,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -967,6 +989,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -1034,6 +1057,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_ERROR, $code);
@@ -1115,6 +1139,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1200,6 +1225,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1265,6 +1291,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1339,6 +1366,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1417,6 +1445,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1485,6 +1514,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1549,6 +1579,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
@@ -1606,6 +1637,7 @@ class PopulateIndexCommandTest extends TestCase
             '--url-prefix', '/1.1',
             '--index-prefix', 'cake-docs-test',
             '--host', 'http://127.0.0.1:9200',
+            '--verbose',
         ], $this->io);
 
         $this->assertSame(CommandInterface::CODE_SUCCESS, $code);
