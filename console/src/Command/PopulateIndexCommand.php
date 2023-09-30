@@ -313,7 +313,7 @@ class PopulateIndexCommand extends BaseCommand
                     ]
                 );
 
-                $io->out("Storing document for `{$document->getData()['url']}`.");
+                $io->verbose("Storing document for `{$document->getData()['url']}`.");
 
                 try {
                     $indexManager->storeDocument($document, $index);
@@ -343,7 +343,7 @@ class PopulateIndexCommand extends BaseCommand
                 ]
             );
 
-            $io->out("Storing document for `{$document->getData()['url']}`.");
+            $io->verbose("Storing document for `{$document->getData()['url']}`.");
 
             try {
                 $indexManager->storeDocument($document, $index);
