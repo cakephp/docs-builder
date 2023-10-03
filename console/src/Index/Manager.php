@@ -201,6 +201,12 @@ class Manager
     public function setAlias(string $index, string $alias, ?string $oldIndex = null): void
     {
         $actions = [];
+        $actions[] = [
+            'add' => [
+                'index' => $index,
+                'alias' => $alias,
+            ],
+        ];
         if ($oldIndex) {
             $actions[] = [
                 'remove' => [
@@ -209,12 +215,6 @@ class Manager
                 ],
             ];
         }
-        $actions[] = [
-            'add' => [
-                'index' => $index,
-                'alias' => $alias,
-            ],
-        ];
 
         $client = new Client();
         $response = $client->post(
